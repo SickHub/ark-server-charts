@@ -1,0 +1,144 @@
+{{- $fullname := (include "ark-cluster.fullname" .) -}}
+{{- $labels := (include "ark-cluster.labels" .) -}}
+{{- range .Values.servers }}
+---
+{{- $gameudp := $.Values.containerPorts.gameudp -}}
+{{- $queryudp := $.Values.containerPorts.queryudp -}}
+{{- $rcon := $.Values.containerPorts.rcon -}}
+{{- if .ports -}}
+  {{- $gameudp = default $gameudp .ports.gameudp -}}
+  {{- $queryudp = default $queryudp .ports.queryudp -}}
+  {{- $rcon = default $rcon .ports.rcon -}}
+{{- end -}}
+{{- $engineini := default dict $.Values.customConfigMap.EngineIni }}
+{{- $gameini := default dict $.Values.customConfigMap.GameIni}}
+{{- $gameusersettingsini := default dict $.Values.customConfigMap.GameUserSettingsIni }}
+{{- if .customConfigMap }}
+  {{- $gameini = default $gameini .customConfigMap.GameIni }}
+  {{- $gameusersettingsini = default $gameusersettingsini .customConfigMap.GameUserSettingsIni }}
+  {{- $engineini = default $engineini .customConfigMap.EngineIni }}
+{{- end }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $fullname }}-{{ .name }}
+  namespace: {{ $.Release.Namespace }}
+  labels: {{- $labels | nindent 4 }}
+    component: {{ .name }}
+    {{- if $.Values.podLabels }}
+    {{- include "ark-cluster.tplValue" (dict "value" $.Values.podLabels "context" $) | nindent 8 }}
+    {{- end }}
+  annotations:
+    checksum/values: {{ toYaml $.Values | sha256sum | trunc 10 | quote }}
+    {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | trim | indent 4 }}
+data:
+  Engine.ini: |
+  {{- if $engineini }}
+    # from {{ .name }}.customConfig.EngineIni
+    {{- $engineini | nindent 4 }}
+  {{- else }}
+    # Engine.ini
+  {{- end }}
+  Game.ini: |
+  {{- if $gameini }}
+    # from {{ .name }}.customConfig.GameIni
+    {{- $gameini | nindent 4 }}
+  {{- else }}
+    [/Script/ShooterGame.ShooterGameMode]
+    bDisableStructurePlacementCollision=True
+    # 0: Health,
+    # 1: Stamina,
+    # 2: Torpidity,
+    # 3: Oxygen,
+    # 4: Food,
+    # 5: Water,
+    # 6: Temperature,
+    # 7: Weight,
+    # 8: MeleeDamageMultiplier,
+    # 9: SpeedMultiplier,
+    # 10: TemperatureFortitude,
+    # 11: CraftingSpeedMultiplier
+    #PerLevelStatsMultiplier_Player[0]=2.0
+    #PerLevelStatsMultiplier_Player[4]=2.0
+    #PerLevelStatsMultiplier_Player[5]=2.0
+    #PerLevelStatsMultiplier_Player[7]=2.0
+    #PerLevelStatsMultiplier_DinoTamed[7]=2.0
+    #PerLevelStatsMultiplier_DinoWild[7]=1
+    # https://board.nitrado.net/support-de-german-only/support-gameserver/ark-survival-evolved/103586/butgeschwindigkeit-wachstumsgeschwindigkeit/?s=6270aee8447cd08b702a7315fe1e47efe64afb1b#post681499
+    # https://survivetheark.com/index.php?/forums/topic/200763-help-with-breedingimprinting-settings/
+    #MatingIntervalMultiplier=0.1
+    #BabyMatureSpeedMultiplier=25.0
+    #EggHatchSpeedMultiplier=15.0
+    #BabyCuddleIntervalMultiplier=0.1
+  {{- end }}
+  GameUserSettings.ini: |
+  {{- if $gameusersettingsini }}
+    # from {{ .name }}.customConfig.GameUserSettingsIni
+    {{- $gameusersettingsini | nindent 4 }}
+  {{- else }}
+    [ServerSettings]
+    AllowFlyerCarryPvE=True
+    AllowThirdPersonPlayer=True
+    AlwaysNotifyPlayerLeft=False
+    AutoSavePeriodMinutes=15.000000
+    ClampResourceHarvestDamage=False
+    DifficultyOffset=5.000000
+    DisableStructureDecayPvE=False
+    DontAlwaysNotifyPlayerJoined=False
+    EnablePvPGamma=False
+    GlobalVoiceChat=False
+    KickIdlePlayersPeriod=2400.000000
+    NoTributeDownloads=False
+    ProximityChat=False
+    ProximityVoiceChat=False
+    PvEStructureDecayDestructionPeriod=0.000000
+    ServerCrosshair=True
+    ServerForceNoHUD=False
+    ServerHardcore=False
+    ServerPassword={{ default "" .password }}
+    ServerPVE=True
+    ShowMapPlayerLocation=True
+    TamedDinoDamageMultiplier=1.000000
+    TamedDinoResistanceMultiplier=1.000000
+    StructurePreventResourceRadiusMultiplier=1.000000
+    RaidDinoCharacterFoodDrainMultiplier=1.000000
+    PvEDinoDecayPeriodMultiplier=1.000000
+    PerPlatformMaxStructuresMultiplier=1.000000
+    ListenServerTetherDistanceMultiplier=1.000000
+    MaxTamedDinos=5000.000000
+    RCONServerGameLogBuffer=600.000000
+    AllowHitMarkers=True
+    TamingSpeedMultiplier=3.000000
+    AllowCaveBuildingPvE=True
+    AllowAnyoneBabyImprintCuddle=True
+    ShowFloatingDamageText=True
+    NonPermanentDiseases=True
+    HarvestAmountMultiplier=1.900000
+    PreventDownloadSurvivors=False
+    PreventDownloadItems=False
+    PreventDownloadDinos=False
+    PreventUploadSurvivors=False
+    PreventUploadItems=False
+    PreventUploadDinos=False
+    TribeLogDestroyedEnemyStructures=True
+    TheMaxStructuresInRange=10500.000000
+    XPMultiplier={{ default 1 .xpMultiplier }}
+    ActiveMods=
+
+    [SessionSettings]
+    SessionName={{ .sessionName }}
+
+    [/Script/Engine.GameSession]
+
+    [MessageOfTheDay]
+    {{- if .message }}
+    Message={{ .message }}
+    {{- else }}
+    Message=Wilkommen auf dem ARK server {{ .name }}
+    {{- end }}
+    Duration=5
+
+    [/Game/PrimalEarth/CoreBlueprints/TestGameMode.TestGameMode_C]
+    bServerGameLogEnabled=True
+  {{- end }}
+{{- end }}

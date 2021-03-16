@@ -1,0 +1,263 @@
+{{- $name := (include "ark-cluster.name" .) -}}
+{{- $fullname := (include "ark-cluster.fullname" .) -}}
+{{- $labels := (include "ark-cluster.labels" .) -}}
+{{- $selectorLabels := (include "ark-cluster.selectorLabels" .) -}}
+{{- $serviceAccount := (include "ark-cluster.serviceAccountName" .) -}}
+{{- $image := (include "ark-cluster.image" .) -}}
+{{- $mods := (include "ark-cluster.mods" .) -}}
+{{- $rconpass := (include "rcon.password" .) -}}
+{{- /*
+Loop over `servers`
+  * echo server must have basic settings (map, sessionName, ...)
+  * each server can overwrite ports, env
+*/}}
+{{- range .Values.servers }}
+---
+{{- $gameudp := $.Values.containerPorts.gameudp -}}
+{{- $queryudp := $.Values.containerPorts.queryudp -}}
+{{- $rcon := $.Values.containerPorts.rcon -}}
+{{- if .ports -}}
+  {{- $gameudp = default $gameudp .ports.gameudp -}}
+  {{- $queryudp = default $queryudp .ports.queryudp -}}
+  {{- $rcon = default $rcon .ports.rcon -}}
+{{- end -}}
+{{- $extraEnvVars := default list $.Values.extraEnvVars -}}
+{{- if .extraEnvVars }}
+  {{- $extraEnvVars = concat $extraEnvVars .extraEnvVars }}
+{{- end }}
+{{- if .rcon }}
+  {{- $rconpass = default $rconpass .rcon.password }}
+{{- end }}
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: {{ $fullname }}-{{ .name }}
+  namespace: {{ $.Release.Namespace }}
+  labels: {{- $labels | nindent 4 }}
+    component: {{ .name }}
+    {{- if $.Values.podLabels }}
+    {{- include "ark-cluster.tplValue" (dict "value" $.Values.podLabels "context" $) | nindent 8 }}
+    {{- end }}
+  annotations:
+    checksum/values: {{ toYaml $.Values | sha256sum | trunc 10 | quote }}
+    {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | trim | indent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- $selectorLabels | nindent 6 }}
+      component: {{ .name }}
+  {{- if $.Values.replicaCount }}
+  replicas: {{ $.Values.replicaCount }}
+  {{- end }}
+  revisionHistoryLimit: {{ $.Values.revisionHistoryLimit }}
+  strategy: {{- toYaml $.Values.updateStrategy | nindent 4 }}
+  template:
+    metadata:
+      labels: {{- $labels | nindent 8 }}
+        component: {{ .name }}
+        {{- if $.Values.podLabels }}
+        {{- include "ark-cluster.tplValue" (dict "value" $.Values.podLabels "context" $) | nindent 8 }}
+        {{- end }}
+      {{- if $.Values.podAnnotations }}
+      annotations: {{- include "ark-cluster.annotations" (dict "annotations" $.Values.podAnnotations "context" $) | trim | nindent 8 }}
+      {{- end }}
+    spec:
+      restartPolicy: {{ $.Values.restartPolicy }}
+      {{- if $.Values.dnsPolicy }}
+      dnsPolicy: {{ $.Values.dnsPolicy }}
+      {{- end }}
+      {{- if $.Values.priorityClassName }}
+      priorityClassName: {{ $.Values.priorityClassName | quote }}
+      {{- end }}
+      {{- if $.Values.affinity }}
+      affinity: {{- include "ark-cluster.tplValue" (dict "value" $.Values.affinity "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if $.Values.nodeSelector }}
+      nodeSelector: {{- include "ark-cluster.tplValue" (dict "value" $.Values.nodeSelector "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if $.Values.tolerations }}
+      tolerations: {{- include "ark-cluster.tplValue" (dict "value" $.Values.tolerations "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if $.Values.podSecurityContext }}
+      securityContext: {{- toYaml $.Values.podSecurityContext | nindent 8 }}
+      {{- end }}
+      hostNetwork: {{ $.Values.hostNetwork }}
+      {{- if $.Values.topologySpreadConstraints }}
+      topologySpreadConstraints: {{ toYaml $.Values.topologySpreadConstraints | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ $serviceAccount }}
+      terminationGracePeriodSeconds: {{ $.Values.terminationGracePeriodSeconds }}
+      {{- if $.Values.image.dockerconfigjson }}
+      imagePullSecrets:
+        - name: {{ $fullname }}-registry-creds
+      {{- end }}
+      {{- if $.Values.initContainers }}
+      initContainers:
+      {{- toYaml $.Values.initContainers | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ $name }}-{{ .name }}
+          image: {{ $image }}
+          imagePullPolicy: {{ $.Values.image.pullPolicy | quote }}
+          {{- if $.Values.lifecycle }}
+          lifecycle: {{- toYaml $.Values.lifecycle | nindent 12 }}
+          {{- end }}
+          env:
+            # arkmanager subtracts 1 from port by default
+            - name: am_arkNoPortDecrement
+              value: "true"
+            - name: ARKCLUSTER
+              value: "true"
+            - name: am_arkopt_clusterid
+              value: {{ $.Values.clusterName | quote }}
+            # TODO: make this optional
+            - name: am_arkStagingDir
+              value: ""
+            - name: ARKSERVER_SHARED
+              value: {{ $.Values.persistence.game.mountPath | quote }}
+            {{- if .updateOnStart }}
+            - name: am_arkAutoUpdateOnStart
+              value: "true"
+            {{- end }}
+            - name: am_ark_SessionName
+              value: {{ .sessionName | quote }}
+            - name: am_serverMap
+              value: {{ .map | quote }}
+            {{- if .maxPlayers }}
+            - name: am_ark_MaxPlayers
+              value: {{ .maxPlayers | quote }}
+            {{- end }}
+            - name: am_ark_QueryPort
+              value: {{ $queryudp | quote }}
+            - name: am_ark_Port
+              value: {{ $gameudp | quote }}
+            {{- if .password }}
+            - name: am_ark_ServerPassword
+              value: {{ .password | quote }}
+            {{- end }}
+            {{- if or $rconpass $rcon }}
+            - name: am_ark_RCONPort
+              value: {{ $rcon | quote }}
+            - name: ark_ServerAdminPassword
+              value: {{ $rconpass | quote }}
+            {{- end }}
+            - name: am_ark_GameModIds
+              value: {{ default $mods (join "," .mods) }}
+            - name: am_arkGameIniFile
+              value: /arkconfig/Game.ini
+            - name: am_arkGameUserSettingsIniFile
+              value: /arkconfig/GameUserSettings.ini
+            {{- if $extraEnvVars }}
+            {{- toYaml $extraEnvVars | nindent 12 }}
+            {{- end }}
+          ports:
+            - name: gameudp
+              containerPort: {{ $gameudp }}
+              protocol: UDP
+              {{- if $.Values.hostPort }}
+              hostPort: {{ $gameudp }}
+              {{- end }}
+            - name: gameudp2
+              containerPort: {{ add $gameudp  1 }}
+              protocol: UDP
+              {{- if $.Values.hostPort }}
+              hostPort: {{ add $gameudp 1 }}
+              {{- end }}
+            - name: queryudp
+              containerPort: {{ $queryudp }}
+              protocol: UDP
+              {{- if $.Values.hostPort }}
+              hostPort: {{ $queryudp }}
+              {{- end }}
+            - name: rcon
+              containerPort: {{ $rcon }}
+              protocol: TCP
+              {{- if $.Values.hostPort }}
+              hostPort: {{ $rcon }}
+              {{- end }}
+          resources:
+            {{- toYaml $.Values.resources | nindent 12 }}
+          startupProbe:
+            tcpSocket:
+              port: {{ $rcon }}
+            initialDelaySeconds: {{ $.Values.startupProbe.initialDelaySeconds }}
+            periodSeconds: {{ $.Values.startupProbe.periodSeconds }}
+            timeoutSeconds: {{ $.Values.startupProbe.timeoutSeconds }}
+            successThreshold: {{ $.Values.startupProbe.successThreshold }}
+            failureThreshold: {{ $.Values.startupProbe.failureThreshold }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ $rcon }}
+            initialDelaySeconds: {{ $.Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ $.Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ $.Values.livenessProbe.timeoutSeconds }}
+            successThreshold: {{ $.Values.livenessProbe.successThreshold }}
+            failureThreshold: {{ $.Values.livenessProbe.failureThreshold }}
+          volumeMounts:
+            {{/*- ark-cluster config files */}}
+            # config files
+            - mountPath: /arkconfig
+              name: {{ $fullname }}-config-volume
+            {{/*- ark-cluster save files */}}
+            # save files
+            - mountPath: {{ $.Values.persistence.save.mountPath }}
+              name: {{ $fullname }}-save-volume
+              readOnly: false
+            {{/*- ark-cluster game files */}}
+            # shared game files
+            - mountPath: {{ $.Values.persistence.game.mountPath }}
+              name: {{ $fullname }}-game-volume
+              readOnly: false
+            {{/*- ark-cluster shared cluster files */}}
+            # shared cluster files
+            - mountPath: {{ $.Values.persistence.cluster.mountPath }}
+              name: {{ $fullname }}-cluster-volume
+              readOnly: false
+            {{- if $.Values.extraVolumeMounts }}
+            {{- toYaml $.Values.extraVolumeMounts | nindent 12 }}
+            {{- end }}
+        {{- if $.Values.extraContainers }}
+        {{- toYaml $.Values.extraContainers | nindent 8 }}
+        {{- end }}
+      volumes:
+        {{/* ark-cluster configuration files in a configmap */}}
+        - name: {{ $fullname }}-config-volume
+          configMap:
+            name: {{ $fullname }}-{{ .name }}
+        {{/* ark-cluster shared game data persistence */}}
+        - name: {{ $fullname }}-game-volume
+          {{- if not $.Values.persistence.enabled }}
+          emptyDir: {}
+          {{- else if $.Values.persistence.game.existingClaim }}
+          persistentVolumeClaim:
+            claimName: {{ printf "%s" (tpl $.Values.persistence.game.existingClaim .) }}
+          {{- else }}
+          persistentVolumeClaim:
+            claimName: {{ $fullname }}-game
+          {{- end }}
+        {{/* ark-cluster shared cluster data persistence */}}
+        - name: {{ $fullname }}-cluster-volume
+          {{- if not $.Values.persistence.enabled }}
+          emptyDir: {}
+          {{- else if $.Values.persistence.cluster.existingClaim }}
+          persistentVolumeClaim:
+            claimName: {{ printf "%s" (tpl $.Values.persistence.cluster.existingClaim .) }}
+          {{- else }}
+          persistentVolumeClaim:
+            claimName: {{ $fullname }}-cluster
+          {{- end }}
+        {{/* ark-cluster save game persistence */}}
+        - name: {{ $fullname }}-save-volume
+          {{- if not $.Values.persistence.enabled }}
+          emptyDir: {}
+          {{- else if $.Values.persistence.save.existingClaim }}
+          persistentVolumeClaim:
+            claimName: {{ printf "%s" (tpl $.Values.persistence.save.existingClaim .) }}
+          {{- else }}
+          persistentVolumeClaim:
+            claimName: {{ $fullname }}-{{ .name }}
+          {{- end }}
+        {{- if $.Values.extraVolumes }}
+        {{- toYaml $.Values.extraVolumes | nindent 8 }}
+        {{- end }}
+{{- end }}
