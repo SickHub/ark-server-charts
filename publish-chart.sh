@@ -4,7 +4,7 @@ function bumpChartVersion() {
   v=$(grep '^version:' ./charts/$1/Chart.yaml | awk -F: '{print $2}' | tr -d ' ')
   patch=${v/*.*./}
   nv=${v/%$patch/}$((patch+1))
-  sed -i"" -e "s/version: .*/version: $nv/" charts/$1/Chart.yaml
+  sed -i "" -e "s/version: .*/version: $nv/" charts/$1/Chart.yaml
 }
 
 # checkout github-pages
