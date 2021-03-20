@@ -19,12 +19,12 @@ done
 
 helm repo index ./docs --url https://drpsychick.github.io/ark-server-charts/
 
-git add docs
+git add ./docs
 git commit -m "publish charts" -av
 git push
 
 # switch back to master and merge
 git checkout master
 git pull
-git merge gh-pages
+git merge -m "merge gh-pages" gh-pages
 git push
