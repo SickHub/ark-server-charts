@@ -1,0 +1,18 @@
+apiVersion: v2
+name: ark-cluster
+version: 0.0.1
+description: A Helm chart for an Ark - Survival Evolved cluster
+type: application
+appVersion: latest
+home: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
+keyworks:
+  - game
+  - server
+  - steam
+  - ark
+sources:
+  - https://github.com/DrPsychick/ark-cluster-chart
+maintainers:
+  - name: DrPsychick
+    email: drpsychick@drsick.net
+    url: https://github.com/DrPsychick

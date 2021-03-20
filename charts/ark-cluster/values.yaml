@@ -1,0 +1,234 @@
+nameOverride: ""
+fullnameOverride: ""
+commonLabels: {}
+commonAnnotations: {}
+nodeSelector: {}
+affinity: {}
+tolerations: []
+podAnnotations: {}
+podSecurityContext:
+  capabilities:
+    drop:
+      - ALL
+    add:
+      - NET_ADMIN
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+topologySpreadConstraints: {}
+
+image:
+  registry: docker.io
+  repository: drpsychick/arkcluster
+  tag: latest
+  pullSecrets: []
+  pullPolicy: Always
+
+updateStrategy:
+  type: Recreate
+
+restartPolicy: Always
+
+# Time for the server to shutdown gracefully
+terminationGracePeriodSeconds: 60
+
+# If you set replicaCount it will be updated with every deploy
+# If you do NOT set replicaCount, it's not touched with a deploy
+#replicaCount: 0
+
+# Attach pod directly to host network
+# Implies: `service.enabled: false`
+# Mutually exclusive: `hostPort`
+hostNetwork: false
+
+# Attach specific ports to host node.
+# Implies: `service.enabled: false`
+# Mutually exclusive: `hostNetwork`
+hostPort: true
+
+# set to "ClusterFirstWithHostNet" when hostNetwork=true
+#dnsPolicy: ClusterFirst
+
+# Cluster name
+clusterName: arkcluster
+
+# Mods available in the cluster and enabled by default on all servers.
+# Mods are updated with the game and can be overwritten per server.
+mods: []
+  #- "731604991"
+  #- "889745138"
+  #- "893904615"
+  #- "1404697612"
+  #- "621154190"
+  #- "564895376"
+  #- "931434275"
+
+# Set RCON password for the whole cluster
+rcon:
+  password:
+
+# Global extraEnvVars for all servers
+extraEnvVars: []
+  #- name: am_arkwarnminutes
+  #  value: "15"
+
+# Global custom game settings can be overwritten per server
+customConfigMap:
+  GameIni:
+  GameUserSettingsIni:
+  EngineIni:
+
+# Servers in the ARK cluster
+servers: []
+#  # one entry for each server in the cluster
+#  - name: extinction
+#    # updateOnStart should be enabled only on the first server
+#    updateOnStart: true
+#    sessionName: "Extinction"
+#    message: "Welcome to Extinction"
+#    # map: TheIsland, Ragnarok, CrystalIsles, Aberration_P, ScorchedEarth_P, Extinction, ...
+#    map: Extinction
+#    password: ""
+#    maxPlayers: 10
+#    # xpMultiplier is added to default GameUserSettings.ini
+#    # if you use `customConfigMap.GameUserSettingsIni` make sure to include it there
+#    xpMultiplier: 6
+#    extraEnvVars:
+#      - name: am_arkwarnminutes
+#        value: "30"
+#    # ports must be the same on external and internal
+#    ## we don't need a service abtraction as every pod is a single server with dedicated ports
+#    # a service with nodePort would be "right" configuration, but for latency reasons I'd skip it.
+#    # with service: public:30200 -> [nodeport:30200] -> service:$gameudp -> pod:30200
+#    # hostnetwork (no service!): public:30200 -> node=pod:30200
+#    # pod hostPort (through service): public:30200 -> node=pod:30200
+#    # difference hostPort hostNetwork : Port only exposes a single port
+#    ports:
+#      queryudp: 27010
+#      gameudp: 7770
+#      rcon: 32330
+#    # override mods for a single server
+#    # mods: []
+#    rcon:
+#      password: "foobar"
+#    resources:
+#      requests:
+#        cpu: 1
+#        memory: 4Gi
+#      limits:
+#        cpu: 1.5
+#        memory: 6Gi
+#    customConfigMap:
+#      GameIni: |
+#        # Extinction Game.ini
+#      GameUserSettingsIni: |
+#        # Extinction GameUserSettings.ini
+#        [ServerSettings]
+#        XPMultiplier=6
+#      EngineIni: |
+#        # Extinction Engine.ini
+
+# Containers' resource requests and limits
+# ref: http://kubernetes.io/docs/user-guide/compute-resources/
+#
+resources:
+  limits:
+    cpu: 1.5
+    memory: 6Gi
+  requests:
+    cpu: 1
+    memory: 4Gi
+
+# Default ports used by the container. Can be set per server.
+# ARK communicates ports to the client, so make sure the container port matches the external port!
+# Using these default settings for a cluster only makes sense if you have an IP for each server.
+containerPorts:
+  gameudp: 7777
+  queryudp: 27015
+  rcon: 32330
+
+# Enable persistence using Persistent Volume Claims
+# ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+#
+persistence:
+  enabled: true
+
+  # contains the world and configuration files
+  # keeping a backup of this is enough to get your server back up
+  save:
+    # A manually managed Persistent Volume Claim
+    #existingClaim:
+
+    # volumeMode defines what type of volume is required by the claim.
+    # Value of Filesystem is implied when not included in claim spec.
+    #volumeMode: Filesystem
+
+    # A named, existing Persistent Volume
+    #existingVolume:
+
+    # PV Storage Class
+    # If defined, storageClassName: <storageClass>
+    # If set to "-", storageClassName: "", which disables dynamic provisioning
+    # If undefined (the default) or set to null, no storageClassName spec is
+    # set, choosing the default provisioner.
+    #storageClass: "local-storage"
+
+    # PVC Access Modes
+    accessModes:
+      - ReadWriteOnce
+
+    # PVC size
+    size: 2Gi
+
+    annotations: {}
+
+    # The path the volume will be mounted at
+    mountPath: /ark
+
+  # game files from steam, the largest volume, includes installed mods
+  game:
+    accessModes:
+      - ReadOnlyMany
+      - ReadWriteMany
+      - ReadWriteOnce
+    size: 30Gi
+    annotations: {}
+    mountPath: /arkserver
+
+  # shared cluster files
+  cluster:
+    accessModes:
+      - ReadWriteMany
+    size: 200Mi
+    annotations: {}
+    mountPath: /arkclusters
+
+# Startup and Liveness probe values
+# Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
+startupProbe:
+  # 120s + 60*10s = 720s max
+  initialDelaySeconds: 120
+  failureThreshold: 60
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 1
+livenessProbe:
+  # unhealthy after max 3*10s = 30s
+  initialDelaySeconds: 10
+  failureThreshold: 3
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 1
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+extraInitContainers: []
+extraVolumeMounts: []
+extraVolumes: []

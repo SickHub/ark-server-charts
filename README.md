@@ -58,3 +58,21 @@ extraEnvVars:
     value: /arkserver
 ``` 
 
+### Limit resources
+Optionally create a quota for your namespace, see https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/
+
+Example:
+```yaml
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: arkcluster-quota
+spec:
+  hard:
+    # keep requests low when running on-demand
+    requests.cpu: "1"
+    requests.memory: 8Gi
+    # limit to max 3 running servers
+    limits.cpu: "4"
+    limits.memory: 20Gi
+```

@@ -4,8 +4,8 @@
 {{- $selectorLabels := (include "ark-cluster.selectorLabels" .) -}}
 {{- $serviceAccount := (include "ark-cluster.serviceAccountName" .) -}}
 {{- $image := (include "ark-cluster.image" .) -}}
-{{- $mods := (include "ark-cluster.mods" .) -}}
-{{- $rconpass := (include "rcon.password" .) -}}
+{{- $mods := join "," (default list .Values.mods) -}}
+{{- $rconpass := default "" .Values.rcon.password -}}
 {{- /*
 Loop over `servers`
   * echo server must have basic settings (map, sessionName, ...)
@@ -28,12 +28,13 @@ Loop over `servers`
 {{- if .rcon }}
   {{- $rconpass = default $rconpass .rcon.password }}
 {{- end }}
-apiVersion: "apps/v1"
-kind: "Deployment"
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: {{ $fullname }}-{{ .name }}
   namespace: {{ $.Release.Namespace }}
-  labels: {{- $labels | nindent 4 }}
+  labels:
+    {{- $labels | nindent 4 }}
     component: {{ .name }}
     {{- if $.Values.podLabels }}
     {{- include "ark-cluster.tplValue" (dict "value" $.Values.podLabels "context" $) | nindent 8 }}
@@ -42,25 +43,26 @@ metadata:
     checksum/values: {{ toYaml $.Values | sha256sum | trunc 10 | quote }}
     {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | trim | indent 4 }}
 spec:
-  selector:
-    matchLabels:
-      {{- $selectorLabels | nindent 6 }}
-      component: {{ .name }}
   {{- if hasKey $.Values "replicaCount" }}
   replicas: {{ $.Values.replicaCount }}
   {{- end }}
+  selector:
+    matchLabels:
+      {{- $selectorLabels | nindent 6 }}
+  component: {{ .name }}
   revisionHistoryLimit: {{ $.Values.revisionHistoryLimit }}
   strategy: {{- toYaml $.Values.updateStrategy | nindent 4 }}
   template:
     metadata:
-      labels: {{- $labels | nindent 8 }}
+      labels:
+        {{- $labels | nindent 8 }}
         component: {{ .name }}
         {{- if $.Values.podLabels }}
-        {{- include "ark-cluster.tplValue" (dict "value" $.Values.podLabels "context" $) | nindent 8 }}
+          {{- include "ark-cluster.tplValue" (dict "value" $.Values.podLabels "context" $) | nindent 8 }}
         {{- end }}
-      {{- if $.Values.podAnnotations }}
-      annotations: {{- include "ark-cluster.annotations" (dict "annotations" $.Values.podAnnotations "context" $) | trim | nindent 8 }}
-      {{- end }}
+      annotations:
+        {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | trim | nindent 8 }}
+        {{- include "ark-cluster.annotations" (dict "annotations" $.Values.podAnnotations "context" $) | trim | nindent 8 }}
     spec:
       restartPolicy: {{ $.Values.restartPolicy }}
       {{- if $.Values.dnsPolicy }}
@@ -87,13 +89,13 @@ spec:
       {{- end }}
       serviceAccountName: {{ $serviceAccount }}
       terminationGracePeriodSeconds: {{ $.Values.terminationGracePeriodSeconds }}
-      {{- if $.Values.image.dockerconfigjson }}
+      {{- if $.Values.image.pullSecrets }}
       imagePullSecrets:
-        - name: {{ $fullname }}-registry-creds
+        {{- toYaml $.Values.image.pullSecrets | nindent 8}}
       {{- end }}
       {{- if $.Values.initContainers }}
       initContainers:
-      {{- toYaml $.Values.initContainers | nindent 8 }}
+        {{- toYaml $.Values.initContainers | nindent 8 }}
       {{- end }}
       containers:
         - name: {{ $name }}-{{ .name }}

@@ -108,17 +108,3 @@ Usage:
 {{ $key }}: {{ include "ark-cluster.tplValue" (dict "value" $value "context" $.context) | quote }}
 {{- end }}
 {{- end -}}
-
-{{/*
-Renders RCON password if any
-*/}}
-{{- define "rcon.password" -}}
-{{- default "" .Values.rcon.password }}
-{{- end -}}
-
-{{/*
-Renders comma separated list of mods
-*/}}
-{{- define "ark-cluster.mods" -}}
-{{- join "," (default "[]" .Values.mods) }}
-{{- end -}}
