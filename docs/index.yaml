@@ -9,7 +9,30 @@ entries:
           url: https://hub.docker.com/r/drpsychick/arkcluster
     apiVersion: v2
     appVersion: latest
-    created: "2021-03-20T22:28:33.460029+01:00"
+    created: "2021-03-20T23:16:40.347179+01:00"
+    description: A Helm chart for an Ark - Survival Evolved cluster
+    digest: 87758ff5899840d096f5a422c31e386b926ac960fe9521207956737edb2d2791
+    home: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
+    maintainers:
+    - email: drpsychick@drsick.net
+      name: DrPsychick
+      url: https://github.com/DrPsychick
+    name: ark-cluster
+    sources:
+    - https://github.com/DrPsychick/ark-server-charts
+    type: application
+    urls:
+    - https://drpsychick.github.io/ark-server-charts/ark-cluster-0.0.8.tgz
+    version: 0.0.8
+  - annotations:
+      artifacthub.io/links: |
+        - name: Image source
+          url: https://github.com/thmhoag/arkserver
+        - name: Image DockerHub
+          url: https://hub.docker.com/r/drpsychick/arkcluster
+    apiVersion: v2
+    appVersion: latest
+    created: "2021-03-20T23:16:40.34595+01:00"
     description: A Helm chart for an Ark - Survival Evolved cluster
     digest: b88197acaa06838b335b36841c92d496c236d96bfb2c43496f47753d704ebbbf
     home: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
@@ -32,7 +55,7 @@ entries:
           url: https://hub.docker.com/r/drpsychick/arkcluster
     apiVersion: v2
     appVersion: latest
-    created: "2021-03-20T22:28:33.458836+01:00"
+    created: "2021-03-20T23:16:40.344403+01:00"
     description: A Helm chart for an Ark - Survival Evolved cluster
     digest: 3e619d8624885fdc780e0663efd1f0a2a5a96231ceaf7aa9d41520a46d3378c4
     home: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
@@ -55,7 +78,7 @@ entries:
           url: https://hub.docker.com/r/drpsychick/arkcluster
     apiVersion: v2
     appVersion: latest
-    created: "2021-03-20T22:28:33.45517+01:00"
+    created: "2021-03-20T23:16:40.342057+01:00"
     description: A Helm chart for an Ark - Survival Evolved cluster
     digest: b0547964c07062655d29a97c52eff3d084ad174529f4265d0499f3172760e5bd
     home: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
@@ -70,4 +93,4 @@ entries:
     urls:
     - https://drpsychick.github.io/ark-server-charts/ark-cluster-0.0.5.tgz
     version: 0.0.5
-generated: "2021-03-20T22:28:33.453809+01:00"
+generated: "2021-03-20T23:16:40.339877+01:00"
