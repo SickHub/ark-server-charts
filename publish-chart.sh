@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 function bumpChartVersion() {
   v=$(grep '^version:' ./charts/$1/Chart.yaml | awk -F: '{print $2}' | tr -d ' ')
   patch=${v/*.*./}
@@ -8,9 +10,9 @@ function bumpChartVersion() {
 }
 
 # checkout github-pages
-git checkout gh-pages || exit
+git checkout gh-pages
 git pull
-git merge --squash -m 'update from master' master
+git rebase master
 git push
 
 for c in ark-cluster; do
