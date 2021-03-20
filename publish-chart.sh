@@ -8,7 +8,7 @@ function bumpChartVersion() {
 }
 
 # checkout github-pages
-git checkout gh-pages
+git checkout gh-pages || exit
 git pull
 
 for c in ark-cluster; do
