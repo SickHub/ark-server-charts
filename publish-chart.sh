@@ -31,5 +31,8 @@ git push
 git checkout master
 git pull
 git merge --squash -m "publish charts" gh-pages
+<<<<<<< HEAD
 git commit -m "publish charts" -av
+=======
+>>>>>>> publish charts
 git push
