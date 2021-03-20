@@ -2,14 +2,14 @@
 {{- range .Values.servers }}
 {{- if .updateOnStart }}
 1. Start the main server of the cluster:
-  kubectl --namespace {{ .Release.Namespace }} scale {{ $fullname }}-{{ .name }} --replicas 1
+  kubectl --namespace {{ $.Release.Namespace }} scale deployment/{{ $fullname }}-{{ .name }} --replicas 1
 
 2. Wait for the server and mods to be downloaded/updated and the server to be up
-  export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ $fullname }}-{{ .name }})
-  kubectl --namespace {{ .Release.Namespace }} logs -f $POD_NAME
+  export POD_NAME=$(kubectl get pods --namespace {{ $.Release.Namespace }} -l "app.kubernetes.io/name={{ $fullname }}" -l "component={{ .name }}")
+  kubectl --namespace {{ $.Release.Namespace }} logs -f $POD_NAME
 
 3. Add server to your steam server list
-  export SERVER_ADDRESS=$(kubectl --namespace {{ .Release.Namespace }} get $POD_NAME -o json | jq '.items[0].status.hostIP + ":" + (.items[0].spec.containers[0].env[] | select(.name == "am_ark_QueryPort") | .value)')
+  export SERVER_ADDRESS=$(kubectl --namespace {{ $.Release.Namespace }} get $POD_NAME -o json | jq '.items[0].status.hostIP + ":" + (.items[0].spec.containers[0].env[] | select(.name == "am_ark_QueryPort") | .value)')
   echo "$SERVER_ADDRESS"
 {{- end }}
 {{- end }}
