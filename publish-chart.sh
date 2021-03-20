@@ -10,6 +10,8 @@ function bumpChartVersion() {
 # checkout github-pages
 git checkout gh-pages || exit
 git pull
+git merge --squash -m 'update from master' master
+git push
 
 for c in ark-cluster; do
   [ -z "$(git status -s ./charts/$c/Chart.yaml)" ] && bumpChartVersion $c
@@ -26,5 +28,5 @@ git push
 # switch back to master and merge
 git checkout master
 git pull
-git merge -m "merge gh-pages" gh-pages
+git merge --squash -m "publish charts" gh-pages
 git push
