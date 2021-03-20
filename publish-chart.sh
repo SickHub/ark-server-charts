@@ -30,6 +30,5 @@ git push
 # switch back to master and merge
 git checkout master
 git pull
-git merge --squash -m "publish charts" gh-pages
-git commit -m "publish charts" -av
+git merge gh-pages
 git push
