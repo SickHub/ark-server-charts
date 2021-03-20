@@ -1,6 +1,13 @@
-# ark-cluster helm chart
+# ARK Survival Evolved helm charts
 
 ## How It Works
+The chart is based on docker image https://github.com/thmhoag/arkserver 
+which uses `arkmanager` (https://github.com/arkmanager/ark-server-tools) 
+to install and update ARK from steam as well as mods.
+
+It creates a deployment for each server defined in your `values.yaml`, with `replicaCount=0` by default.
+All servers will share the server files and `clusters` directory.
+
 ### Requirements for Kubernetes
 * ARK communicates its port to the client, thus the external port must be identical to the port where the ARK pod is listening.
 * Required persistent volumes:
@@ -76,3 +83,8 @@ spec:
     limits.cpu: "4"
     limits.memory: 20Gi
 ```
+
+## Credits
+Inspired by
+* https://github.com/itzg/minecraft-server-charts
+* https://github.com/thmhoag/arkserver

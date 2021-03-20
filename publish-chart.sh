@@ -7,6 +7,7 @@ function bumpChartVersion() {
   sed -i"" -e "s/version: .*/version: $nv/" charts/$1/Chart.yaml
 }
 
+# checkout github-pages
 git checkout gh-pages
 git pull
 
@@ -23,4 +24,10 @@ helm repo index ./docs --url https://drpsychick.github.io/ark-server-charts/
 
 git add docs
 git commit -m "publish charts" -av
+git push
+
+# switch back to master and merge
+git checkout master
+git pull
+git merge gh-pages
 git push
