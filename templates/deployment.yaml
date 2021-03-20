@@ -46,7 +46,7 @@ spec:
     matchLabels:
       {{- $selectorLabels | nindent 6 }}
       component: {{ .name }}
-  {{- if $.Values.replicaCount }}
+  {{- if hasKey $.Values "replicaCount" }}
   replicas: {{ $.Values.replicaCount }}
   {{- end }}
   revisionHistoryLimit: {{ $.Values.revisionHistoryLimit }}
