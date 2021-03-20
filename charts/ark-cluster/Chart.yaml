@@ -1,6 +1,10 @@
 apiVersion: v2
 name: ark-cluster
+<<<<<<< HEAD
 version: 0.0.6
+=======
+version: 0.0.7
+>>>>>>> gh-pages
 description: A Helm chart for an Ark - Survival Evolved cluster
 type: application
 appVersion: latest
