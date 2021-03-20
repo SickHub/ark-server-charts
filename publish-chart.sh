@@ -21,7 +21,7 @@ done
 
 helm repo index ./docs --url https://drpsychick.github.io/ark-server-charts/
 
-git add ./docs
+git add .
 git commit -m "publish charts" -av
 git push
 
