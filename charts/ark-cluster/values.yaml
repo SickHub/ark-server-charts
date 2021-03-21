@@ -14,7 +14,8 @@ podSecurityContext:
     drop:
       - ALL
     add:
-      - NET_ADMIN
+      - CHOWN
+      - NET_BIND_SERVICE
   readOnlyRootFilesystem: true
   runAsNonRoot: false
 topologySpreadConstraints: {}

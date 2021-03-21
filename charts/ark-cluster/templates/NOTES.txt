@@ -6,10 +6,11 @@
 
 2. Wait for the server and mods to be downloaded/updated and the server to be up
   export POD_NAME=$(kubectl get pods --namespace {{ $.Release.Namespace }} -l "app.kubernetes.io/name={{ $fullname }}" -l "component={{ .name }}" -o json | jq '.items[0].metadata.name' | tr -d '"')
+  kubectl --namespace {{ $.Release.Namespace }} describe pod $POD_NAME
   kubectl --namespace {{ $.Release.Namespace }} logs -f $POD_NAME
 
 3. Add server to your steam server list
-  export SERVER_ADDRESS=$(kubectl --namespace {{ $.Release.Namespace }} get $POD_NAME -o json | jq '.items[0].status.hostIP + ":" + (.items[0].spec.containers[0].env[] | select(.name == "am_ark_QueryPort") | .value)' | tr -d '"')
+  export SERVER_ADDRESS=$(kubectl --namespace {{ $.Release.Namespace }} get pod $POD_NAME -o json | jq '.items[0].status.hostIP + ":" + (.items[0].spec.containers[0].env[] | select(.name == "am_ark_QueryPort") | .value)' | tr -d '"')
   echo "$SERVER_ADDRESS"
 {{- end }}
 {{- end }}
