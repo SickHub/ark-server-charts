@@ -4,8 +4,6 @@
 {{- $selectorLabels := (include "ark-cluster.selectorLabels" .) -}}
 {{- $serviceAccount := (include "ark-cluster.serviceAccountName" .) -}}
 {{- $image := (include "ark-cluster.image" .) -}}
-{{- $mods := join "," (default list .Values.mods) -}}
-{{- $rconpass := default "" .Values.rcon.password -}}
 {{- /*
 Loop over `servers`
   * echo server must have basic settings (map, sessionName, ...)
@@ -13,20 +11,29 @@ Loop over `servers`
 */}}
 {{- range .Values.servers }}
 ---
-{{- $gameudp := $.Values.containerPorts.gameudp -}}
-{{- $queryudp := $.Values.containerPorts.queryudp -}}
+{{- $gameudp := $.Values.containerPorts.gameudp }}
+{{- $queryudp := $.Values.containerPorts.queryudp }}
 {{- $rcon := $.Values.containerPorts.rcon -}}
-{{- if .ports -}}
+{{- if .ports }}
   {{- $gameudp = default $gameudp .ports.gameudp -}}
   {{- $queryudp = default $queryudp .ports.queryudp -}}
   {{- $rcon = default $rcon .ports.rcon -}}
-{{- end -}}
+{{- end }}
 {{- $extraEnvVars := default list $.Values.extraEnvVars -}}
 {{- if .extraEnvVars }}
   {{- $extraEnvVars = concat $extraEnvVars .extraEnvVars }}
 {{- end }}
+{{- $mods := default list $.Values.mods -}}
+{{- if .mods }}
+  {{- $mods = .mods }}
+{{- end }}
+{{- $rconpass := default "" $.Values.rcon.password }}
 {{- if .rcon }}
   {{- $rconpass = default $rconpass .rcon.password }}
+{{- end }}
+{{- $resources := $.Values.resources -}}
+{{- if .resources }}
+  {{- $resources = .resources }}
 {{- end }}
 apiVersion: apps/v1
 kind: Deployment
@@ -41,7 +48,7 @@ metadata:
     {{- end }}
   annotations:
     checksum/values: {{ toYaml $.Values | sha256sum | trunc 10 | quote }}
-    {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | trim | indent 4 }}
+    {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | trim | nindent 4 }}
 spec:
   {{- if hasKey $.Values "replicaCount" }}
   replicas: {{ $.Values.replicaCount }}
@@ -144,7 +151,7 @@ spec:
               value: {{ $rconpass | quote }}
             {{- end }}
             - name: am_ark_GameModIds
-              value: {{ default $mods (join "," .mods) }}
+              value: {{ join "," $mods }}
             - name: am_arkGameIniFile
               value: /arkconfig/Game.ini
             - name: am_arkGameUserSettingsIniFile
@@ -177,10 +184,9 @@ spec:
               {{- if $.Values.hostPort }}
               hostPort: {{ $rcon }}
               {{- end }}
-          resources:
-            {{- toYaml $.Values.resources | nindent 12 }}
+          resources: {{- toYaml (default $resources .resources) | nindent 12 }}
           {{- if $.Values.podSecurityContext }}
-          securityContext: {{- toYaml $.Values.podSecurityContext | nindent 8 }}
+          securityContext: {{- toYaml $.Values.podSecurityContext | nindent 12 }}
           {{- end }}
           startupProbe:
             tcpSocket:
@@ -199,21 +205,21 @@ spec:
             successThreshold: {{ $.Values.livenessProbe.successThreshold }}
             failureThreshold: {{ $.Values.livenessProbe.failureThreshold }}
           volumeMounts:
-            {{/*- ark-cluster config files */}}
+            {{- /*- ark-cluster config files */}}
             # config files
             - mountPath: /arkconfig
               name: {{ $fullname }}-config-volume
-            {{/*- ark-cluster save files */}}
+            {{- /*- ark-cluster save files */}}
             # save files
             - mountPath: {{ $.Values.persistence.save.mountPath }}
               name: {{ $fullname }}-save-volume
               readOnly: false
-            {{/*- ark-cluster game files */}}
+            {{- /*- ark-cluster game files */}}
             # shared game files
             - mountPath: {{ $.Values.persistence.game.mountPath }}
               name: {{ $fullname }}-game-volume
               readOnly: false
-            {{/*- ark-cluster shared cluster files */}}
+            {{- /*- ark-cluster shared cluster files */}}
             # shared cluster files
             - mountPath: {{ $.Values.persistence.cluster.mountPath }}
               name: {{ $fullname }}-cluster-volume
@@ -225,11 +231,11 @@ spec:
         {{- toYaml $.Values.extraContainers | nindent 8 }}
         {{- end }}
       volumes:
-        {{/* ark-cluster configuration files in a configmap */}}
+        {{- /* ark-cluster configuration files in a configmap */}}
         - name: {{ $fullname }}-config-volume
           configMap:
             name: {{ $fullname }}-{{ .name }}
-        {{/* ark-cluster shared game data persistence */}}
+        {{- /* ark-cluster shared game data persistence */}}
         - name: {{ $fullname }}-game-volume
           {{- if not $.Values.persistence.enabled }}
           emptyDir: {}
@@ -240,7 +246,7 @@ spec:
           persistentVolumeClaim:
             claimName: {{ $fullname }}-game
           {{- end }}
-        {{/* ark-cluster shared cluster data persistence */}}
+        {{- /* ark-cluster shared cluster data persistence */}}
         - name: {{ $fullname }}-cluster-volume
           {{- if not $.Values.persistence.enabled }}
           emptyDir: {}
@@ -251,7 +257,7 @@ spec:
           persistentVolumeClaim:
             claimName: {{ $fullname }}-cluster
           {{- end }}
-        {{/* ark-cluster save game persistence */}}
+        {{- /* ark-cluster save game persistence */}}
         - name: {{ $fullname }}-save-volume
           {{- if not $.Values.persistence.enabled }}
           emptyDir: {}
