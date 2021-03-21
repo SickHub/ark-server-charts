@@ -5,6 +5,9 @@ commonAnnotations: {}
 nodeSelector: {}
 affinity: {}
 tolerations: []
+securityContext:
+  runAsUser: 1000
+  fsGroup: 1000
 podAnnotations: {}
 podSecurityContext:
   capabilities:
@@ -14,7 +17,6 @@ podSecurityContext:
       - NET_ADMIN
   readOnlyRootFilesystem: true
   runAsNonRoot: true
-  runAsUser: 1000
 topologySpreadConstraints: {}
 
 image:

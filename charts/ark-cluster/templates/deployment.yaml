@@ -49,7 +49,7 @@ spec:
   selector:
     matchLabels:
       {{- $selectorLabels | nindent 6 }}
-  component: {{ .name }}
+      component: {{ .name }}
   revisionHistoryLimit: {{ $.Values.revisionHistoryLimit }}
   strategy: {{- toYaml $.Values.updateStrategy | nindent 4 }}
   template:
@@ -80,8 +80,8 @@ spec:
       {{- if $.Values.tolerations }}
       tolerations: {{- include "ark-cluster.tplValue" (dict "value" $.Values.tolerations "context" $) | nindent 8 }}
       {{- end }}
-      {{- if $.Values.podSecurityContext }}
-      securityContext: {{- toYaml $.Values.podSecurityContext | nindent 8 }}
+      {{- if $.Values.securityContext }}
+      securityContext: {{- toYaml $.Values.securityContext | nindent 8 }}
       {{- end }}
       hostNetwork: {{ $.Values.hostNetwork }}
       {{- if $.Values.topologySpreadConstraints }}
@@ -179,6 +179,9 @@ spec:
               {{- end }}
           resources:
             {{- toYaml $.Values.resources | nindent 12 }}
+          {{- if $.Values.podSecurityContext }}
+          securityContext: {{- toYaml $.Values.podSecurityContext | nindent 8 }}
+          {{- end }}
           startupProbe:
             tcpSocket:
               port: {{ $rcon }}
