@@ -16,7 +16,7 @@ podSecurityContext:
     add:
       - NET_ADMIN
   readOnlyRootFilesystem: true
-  runAsNonRoot: true
+  runAsNonRoot: false
 topologySpreadConstraints: {}
 
 image:
