@@ -10,15 +10,15 @@ securityContext: {}
 #  runAsUser: 1000
 #  fsGroup: 1000
 podAnnotations: {}
-podSecurityContext:
-  capabilities:
-    drop:
-      - ALL
-    add:
-      - CHOWN
-      - NET_BIND_SERVICE
-  readOnlyRootFilesystem: true
-  runAsNonRoot: false
+podSecurityContext: {}
+#  capabilities:
+#    drop:
+#      - ALL
+#    add:
+#      - CHOWN
+#      - NET_BIND_SERVICE
+#  readOnlyRootFilesystem: true
+#  runAsNonRoot: false
 topologySpreadConstraints: {}
 
 image:
