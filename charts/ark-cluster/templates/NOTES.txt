@@ -10,7 +10,7 @@
   kubectl --namespace {{ $.Release.Namespace }} logs -f $POD_NAME
 
 3. Add server to your steam server list
-  export SERVER_ADDRESS=$(kubectl --namespace {{ $.Release.Namespace }} get pod $POD_NAME -o json | jq '.items[0].status.hostIP + ":" + (.items[0].spec.containers[0].env[] | select(.name == "am_ark_QueryPort") | .value)' | tr -d '"')
+  export SERVER_ADDRESS=$(kubectl --namespace {{ $.Release.Namespace }} get pod $POD_NAME -o json | jq '.status.hostIP + ":" + (.spec.containers[0].env[] | select(.name == "am_ark_QueryPort") | .value)' | tr -d '"')
   echo "$SERVER_ADDRESS"
 {{- end }}
 {{- end }}
