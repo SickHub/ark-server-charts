@@ -5,16 +5,16 @@ commonAnnotations: {}
 nodeSelector: {}
 affinity: {}
 tolerations: []
-securityContext:
-  runAsUser: 1000
-  fsGroup: 1000
+securityContext: {}
+# need to adjust image...
+#  runAsUser: 1000
+#  fsGroup: 1000
 podAnnotations: {}
 podSecurityContext:
   capabilities:
     drop:
       - ALL
     add:
-      - SYS_ADMIN
       - CHOWN
       - NET_BIND_SERVICE
   readOnlyRootFilesystem: true
