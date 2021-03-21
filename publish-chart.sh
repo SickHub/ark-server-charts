@@ -1,5 +1,7 @@
 #!/bin/sh
 
+[ "$1" = "UPDATE" ] && UPDATE="true"
+
 set -e
 
 function bumpChartVersion() {
@@ -16,7 +18,7 @@ git rebase master
 git push
 
 for c in ark-cluster; do
-  [ -z "$(git status -s ./charts/$c/Chart.yaml)" ] && bumpChartVersion $c
+  [ -z "$(git status -s ./charts/$c/Chart.yaml)" -a -z "$UPDATE" ] && bumpChartVersion $c
   (cd charts; helm package $c)
   mv ./charts/$c-*.tgz ./docs/
 done

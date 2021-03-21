@@ -48,7 +48,7 @@ metadata:
     {{- end }}
   annotations:
     checksum/values: {{ toYaml $.Values | sha256sum | trunc 10 | quote }}
-    {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | trim | nindent 4 }}
+    {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | trim | indent 4 }}
 spec:
   {{- if hasKey $.Values "replicaCount" }}
   replicas: {{ $.Values.replicaCount }}
@@ -68,8 +68,8 @@ spec:
           {{- include "ark-cluster.tplValue" (dict "value" $.Values.podLabels "context" $) | nindent 8 }}
         {{- end }}
       annotations:
-        {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | trim | nindent 8 }}
-        {{- include "ark-cluster.annotations" (dict "annotations" $.Values.podAnnotations "context" $) | trim | nindent 8 }}
+        {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | trim | indent 8 }}
+        {{- include "ark-cluster.annotations" (dict "annotations" $.Values.podAnnotations "context" $) | trim | indent 8 }}
     spec:
       restartPolicy: {{ $.Values.restartPolicy }}
       {{- if $.Values.dnsPolicy }}
@@ -151,7 +151,7 @@ spec:
               value: {{ $rconpass | quote }}
             {{- end }}
             - name: am_ark_GameModIds
-              value: {{ join "," $mods }}
+              value: {{ join "," $mods | quote }}
             - name: am_arkGameIniFile
               value: /arkconfig/Game.ini
             - name: am_arkGameUserSettingsIniFile
