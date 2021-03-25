@@ -12,9 +12,9 @@ All servers will share the `ShooterGame` server files and `clusters` directory.
 ### Requirements for Kubernetes
 * ARK communicates its port to the client, thus the external port must be identical to the port where the ARK pod is listening.
 * Required persistent volumes:
-  * one volume for each server (mounted as `/ark`)
-  * one volume for the shared cluster files (mounted as `/arkclusters`)
   * one volume for the shared server (game) files (the biggest volume) to save space (mounted as `/arkserver`)
+  * one volume for each server (mounted as `/arkserver/ShooterGame/Saved`)
+  * one volume for the shared cluster files (mounted as `/arkserver/ShooterGame/Saved/clusters`)
 
 ### Installation
 First start ONE server, he should also have all mods configured that you want to use
@@ -77,12 +77,12 @@ metadata:
   name: arkcluster-quota
 spec:
   hard:
-    # keep requests low when running on-demand
-    requests.cpu: "1"
-    requests.memory: 8Gi
     # limit to max 3 running servers
-    limits.cpu: "4"
-    limits.memory: 20Gi
+    requests.cpu: "3"
+    requests.memory: 18Gi
+    # limit to max 3 running servers
+    limits.cpu: "4.5"
+    limits.memory: 24Gi
 ```
 
 ## Credits
