@@ -134,7 +134,7 @@ data:
     {{- if .message }}
     Message={{ .message }}
     {{- else }}
-    Message=Wilkommen auf dem ARK server {{ .name }}
+    Message=Welcome on ARK {{ .name }}
     {{- end }}
     Duration=5
 

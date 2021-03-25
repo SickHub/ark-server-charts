@@ -54,6 +54,35 @@ servers:
       rcon: 32330
 ```
 
+#### Custom .ini files
+Can be configured globally on top level as well as per server. A change in config will then result in a restart of the server.
+```yaml
+servers:
+  - name: extinction
+    customConfigMap:
+      GameIni: |
+        [/Script/ShooterGame.ShooterGameMode]
+        bDisableStructurePlacementCollision=True
+        PerLevelStatsMultiplier_Player[0]=2.0
+        PerLevelStatsMultiplier_Player[4]=2.0
+        PerLevelStatsMultiplier_Player[5]=2.0
+        PerLevelStatsMultiplier_Player[7]=2.0
+        PerLevelStatsMultiplier_DinoTamed[7]=2.0
+        PerLevelStatsMultiplier_DinoWild[7]=1
+        MatingIntervalMultiplier=0.1
+        BabyMatureSpeedMultiplier=25.0
+        EggHatchSpeedMultiplier=15.0
+        BabyCuddleIntervalMultiplier=0.1
+      GameUserSettingsIni: |
+        [ServerSettings]
+        AllowFlyerCarryPvE=True
+        AllowThirdPersonPlayer=True
+        AlwaysNotifyPlayerLeft=False
+        AutoSavePeriodMinutes=15.000000
+        ClampResourceHarvestDamage=False
+        [...]
+```
+
 ### Shared Server Files
 TODO: make this optional!
 
