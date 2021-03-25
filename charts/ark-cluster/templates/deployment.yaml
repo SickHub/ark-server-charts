@@ -8,7 +8,7 @@
 Loop over `servers`
   * echo server must have basic settings (map, sessionName, ...)
   * each server can overwrite ports, env
-*/}}
+*/ }}
 {{- range .Values.servers }}
 ---
 {{- $gameudp := $.Values.containerPorts.gameudp }}
@@ -144,9 +144,11 @@ spec:
             - name: am_ark_ServerPassword
               value: {{ .password | quote }}
             {{- end }}
-            {{- if or $rconpass $rcon }}
+            - name: am_ark_RCONEnabled
+              value: "True"
             - name: am_ark_RCONPort
               value: {{ $rcon | quote }}
+            {{- if $rconpass }}
             - name: ark_ServerAdminPassword
               value: {{ $rconpass | quote }}
             {{- end }}
@@ -209,15 +211,15 @@ spec:
             # config files
             - mountPath: /arkconfig
               name: {{ $fullname }}-config-volume
-            {{- /*- ark-cluster save files */}}
-            # save files
-            - mountPath: {{ $.Values.persistence.save.mountPath }}
-              name: {{ $fullname }}-save-volume
-              readOnly: false
             {{- /*- ark-cluster game files */}}
             # shared game files
             - mountPath: {{ $.Values.persistence.game.mountPath }}
               name: {{ $fullname }}-game-volume
+              readOnly: false
+            {{- /*- ark-cluster save files */}}
+            # save files
+            - mountPath: {{ $.Values.persistence.save.mountPath }}
+              name: {{ $fullname }}-save-volume
               readOnly: false
             {{- /*- ark-cluster shared cluster files */}}
             # shared cluster files

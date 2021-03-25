@@ -157,7 +157,25 @@ containerPorts:
 persistence:
   enabled: true
 
-  # contains the world and configuration files
+  # game files from steam, the largest volume, includes installed mods
+  game:
+    accessModes:
+      - ReadOnlyMany
+      - ReadWriteMany
+      - ReadWriteOnce
+    size: 30Gi
+    annotations: {}
+    mountPath: /arkserver
+
+  # shared cluster files
+  cluster:
+    accessModes:
+      - ReadWriteMany
+    size: 200Mi
+    annotations: {}
+    mountPath: /arkserver/ShooterGame/Saved/clusters
+
+  # contains the world save game and configuration files
   # keeping a backup of this is enough to get your server back up
   save:
     # A manually managed Persistent Volume Claim
@@ -187,25 +205,8 @@ persistence:
     annotations: {}
 
     # The path the volume will be mounted at
-    mountPath: /ark
+    mountPath: /arkserver/ShooterGame/Saved
 
-  # game files from steam, the largest volume, includes installed mods
-  game:
-    accessModes:
-      - ReadOnlyMany
-      - ReadWriteMany
-      - ReadWriteOnce
-    size: 30Gi
-    annotations: {}
-    mountPath: /arkserver
-
-  # shared cluster files
-  cluster:
-    accessModes:
-      - ReadWriteMany
-    size: 200Mi
-    annotations: {}
-    mountPath: /arkclusters
 
 # Startup and Liveness probe values
 # Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
