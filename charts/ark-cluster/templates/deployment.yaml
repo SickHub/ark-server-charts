@@ -8,7 +8,7 @@
 Loop over `servers`
   * echo server must have basic settings (map, sessionName, ...)
   * each server can overwrite ports, env
-*/ }}
+*/}}
 {{- range .Values.servers }}
 ---
 {{- $gameudp := $.Values.containerPorts.gameudp }}
