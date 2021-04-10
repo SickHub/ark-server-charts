@@ -1,4 +1,4 @@
-# ARK Survival Evolved helm charts
+# ARK Survival Evolved cluster helm chart
 ARK Survival Evolved is sandbox survival game available for example on Steam: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
 
 ## How It Works
