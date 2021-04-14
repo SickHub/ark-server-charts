@@ -76,6 +76,8 @@ data:
     # from {{ .name }}.customConfig.GameUserSettingsIni
     {{- $gameusersettingsini | nindent 4 }}
   {{- else }}
+    [/Script/ShooterGame.ShooterGameUserSettings]
+    Version=5
     [ServerSettings]
     AllowFlyerCarryPvE=True
     AllowThirdPersonPlayer=True
