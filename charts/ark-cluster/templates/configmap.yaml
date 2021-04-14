@@ -82,7 +82,8 @@ data:
     AlwaysNotifyPlayerLeft=False
     AutoSavePeriodMinutes=15.000000
     ClampResourceHarvestDamage=False
-    DifficultyOffset=5.000000
+    DifficultyOffset=1.000000
+    OverrideOfficialDifficulty=5.000000
     DisableStructureDecayPvE=False
     DontAlwaysNotifyPlayerJoined=False
     EnablePvPGamma=False
