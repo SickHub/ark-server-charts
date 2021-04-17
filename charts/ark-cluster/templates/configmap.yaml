@@ -5,18 +5,18 @@
 {{- $gameudp := $.Values.containerPorts.gameudp }}
 {{- $queryudp := $.Values.containerPorts.queryudp }}
 {{- $rcon := $.Values.containerPorts.rcon }}
-{{- if $server.ports }}
-  {{- $gameudp = default $gameudp $server.ports.gameudp }}
-  {{- $queryudp = default $queryudp $server.ports.queryudp }}
-  {{- $rcon = default $rcon $server.ports.rcon }}
+{{- if .ports }}
+  {{- $gameudp = default $gameudp .ports.gameudp }}
+  {{- $queryudp = default $queryudp .ports.queryudp }}
+  {{- $rcon = default $rcon .ports.rcon }}
 {{- end }}
 {{- $engineini := default dict $.Values.customConfigMap.EngineIni }}
 {{- $gameini := default dict $.Values.customConfigMap.GameIni }}
 {{- $gameusersettingsini := default dict $.Values.customConfigMap.GameUserSettingsIni }}
-{{- if $server.customConfigMap }}
-  {{- $gameini = default $gameini $server.customConfigMap.GameIni }}
-  {{- $gameusersettingsini = default $gameusersettingsini $server.customConfigMap.GameUserSettingsIni }}
-  {{- $engineini = default $engineini $server.customConfigMap.EngineIni }}
+{{- if .customConfigMap }}
+  {{- $gameini = default $gameini .customConfigMap.GameIni }}
+  {{- $gameusersettingsini = default $gameusersettingsini .customConfigMap.GameUserSettingsIni }}
+  {{- $engineini = default $engineini .customConfigMap.EngineIni }}
 {{- end }}
 apiVersion: v1
 kind: ConfigMap

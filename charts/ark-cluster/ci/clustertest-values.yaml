@@ -18,6 +18,9 @@ servers:
     mods: []
     maxPlayers: 2
     ports:
-      queryudp: 27015
-      gameudp: 7777
-      rcon: 32330
+      queryudp: 27016
+      gameudp: 7779
+      rcon: 32331
+    customConfigMap:
+      EngineIni: |
+        # TestCluster Engine.ini
