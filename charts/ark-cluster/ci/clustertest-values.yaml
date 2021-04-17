@@ -1,0 +1,23 @@
+fullnameOverride: clustertest
+persistence:
+  enabled: false
+mods:
+  - "731604991"
+  - "889745138"
+servers:
+  extinction:
+    map: Extinction
+    sessionName: TestCluster
+    xpMultiplier: 4
+    maxPlayers: 2
+    ports:
+      queryudp: 27015
+      gameudp: 7777
+      rcon: 32330
+  theisland:
+    mods: []
+    maxPlayers: 2
+    ports:
+      queryudp: 27015
+      gameudp: 7777
+      rcon: 32330

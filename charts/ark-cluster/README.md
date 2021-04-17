@@ -118,3 +118,4 @@ spec:
 Inspired by
 * https://github.com/itzg/minecraft-server-charts
 * https://github.com/thmhoag/arkserver
+* Icon from [Freepik](https://www.freepik.com) found on [Flaticon](https://www.flaticon.com/)

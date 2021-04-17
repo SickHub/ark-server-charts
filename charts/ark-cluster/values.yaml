@@ -9,6 +9,7 @@ securityContext: {}
 # need to adjust image...
 #  runAsUser: 1000
 #  fsGroup: 1000
+podLabels: {}
 podAnnotations: {}
 podSecurityContext: {}
 #  capabilities:
@@ -38,7 +39,8 @@ terminationGracePeriodSeconds: 60
 
 # If you set replicaCount it will be updated with every deploy
 # If you do NOT set replicaCount, it's not touched with a deploy
-#replicaCount: 0
+#
+# replicaCount: 0
 
 # Attach pod directly to host network
 # Implies: `service.enabled: false`
@@ -51,7 +53,8 @@ hostNetwork: false
 hostPort: true
 
 # set to "ClusterFirstWithHostNet" when hostNetwork=true
-#dnsPolicy: ClusterFirst
+#
+# dnsPolicy: ClusterFirst
 
 # Cluster name
 clusterName: arkcluster
@@ -59,13 +62,13 @@ clusterName: arkcluster
 # Mods available in the cluster and enabled by default on all servers.
 # Mods are updated with the game and can be overwritten per server.
 mods: []
-  #- "731604991"
-  #- "889745138"
-  #- "893904615"
-  #- "1404697612"
-  #- "621154190"
-  #- "564895376"
-  #- "931434275"
+#  - "731604991"
+#  - "889745138"
+#  - "893904615"
+#  - "1404697612"
+#  - "621154190"
+#  - "564895376"
+#  - "931434275"
 
 # Set RCON password for the whole cluster
 rcon:
@@ -73,8 +76,8 @@ rcon:
 
 # Global extraEnvVars for all servers
 extraEnvVars: []
-  #- name: am_arkwarnminutes
-  #  value: "15"
+#  - name: am_arkwarnminutes
+#    value: "15"
 
 # Global custom game settings can be overwritten per server
 customConfigMap:
@@ -83,9 +86,9 @@ customConfigMap:
   EngineIni:
 
 # Servers in the ARK cluster
-servers: []
+servers: {}
 #  # one entry for each server in the cluster
-#  - name: extinction
+#  extinction:
 #    # updateOnStart should be enabled only on the first server
 #    updateOnStart: true
 #    sessionName: "Extinction"
@@ -179,21 +182,25 @@ persistence:
   # keeping a backup of this is enough to get your server back up
   save:
     # A manually managed Persistent Volume Claim
-    #existingClaim:
+    #
+    # existingClaim:
 
     # volumeMode defines what type of volume is required by the claim.
     # Value of Filesystem is implied when not included in claim spec.
-    #volumeMode: Filesystem
+    #
+    # volumeMode: Filesystem
 
     # A named, existing Persistent Volume
-    #existingVolume:
+    #
+    # existingVolume:
 
     # PV Storage Class
     # If defined, storageClassName: <storageClass>
     # If set to "-", storageClassName: "", which disables dynamic provisioning
     # If undefined (the default) or set to null, no storageClassName spec is
     # set, choosing the default provisioner.
-    #storageClass: "local-storage"
+    #
+    # storageClass: "local-storage"
 
     # PVC Access Modes
     accessModes:
@@ -229,7 +236,8 @@ serviceAccount:
   # Specifies whether a service account should be created
   create: true
   # Annotations to add to the service account
-  annotations: {}
+  annotations:
+    sa: annotation
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""

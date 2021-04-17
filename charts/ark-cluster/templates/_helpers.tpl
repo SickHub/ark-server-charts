@@ -91,7 +91,8 @@ Usage:
 {{ include "ark-cluster.tplValue" ( dict "value" .Values.path.to.the.Value "context" $) }}
 */}}
 {{- define "ark-cluster.tplValue" -}}
-    {{- if typeIs "string" .value }}
+    {{- if not .value }}
+    {{- else if typeIs "string" .value }}
         {{- tpl .value .context }}
     {{- else }}
         {{- tpl (.value | toYaml) .context }}
