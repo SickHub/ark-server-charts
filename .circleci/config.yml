@@ -113,7 +113,15 @@ workflows:
   version: 2
   chart-test:
     jobs:
-      - lint
+      - lint:
+          filters:
+            branches:
+              ignore:
+                - gh-pages
       - deploy:
           requires:
             - lint
+          filters:
+            branches:
+              ignore:
+                - gh-pages
