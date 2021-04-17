@@ -9,7 +9,7 @@ aliases:
     - run:
         name: Lint charts
         command: |
-          ct lint --chart-dirs=${CHARTS_DIR} --check-version-increment=false --all
+          ct lint --chart-dirs ${CHARTS_DIR} --all --debug
   - &deploy
     - checkout
     - setup_remote_docker:
@@ -44,7 +44,7 @@ aliases:
     - run:
         name: Lint charts
         command: |
-          ct lint --remote origin --chart-dirs=${CHARTS_DIR} --check-version-increment=false --all
+          ct lint --chart-dirs ${CHARTS_DIR} --all
     - run:
         name: Package charts
         command: |
@@ -84,7 +84,7 @@ aliases:
           socat "TCP-LISTEN:6443,reuseaddr,fork" \
             EXEC:"'docker exec -i test-charts-control-plane socat STDIO TCP:localhost:6443'" &
           kubectl cluster-info --context kind-test-charts
-          ct install --namespace $NAMESPACE --remote origin --chart-dirs=${CHARTS_DIR} --all
+          ct install --namespace $NAMESPACE --chart-dirs ${CHARTS_DIR} --all
           kind delete cluster --name "$CLUSTER_NAME" --quiet || true
 jobs:
   lint:
