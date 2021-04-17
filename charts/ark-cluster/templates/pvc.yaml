@@ -6,13 +6,12 @@ metadata:
   name: {{ template "ark-cluster.fullname" . }}-game
   namespace: {{ .Release.Namespace }}
   labels: {{- include "ark-cluster.labels" . | nindent 4 }}
-    component: game
-    {{- if .Values.commonLabels }}
-    {{- include "ark-cluster.tplValue" (dict "value" .Values.commonLabels "context" $) | nindent 4 }}
+    app.kubernetes.io/component: game
+    {{- if $.Values.commonLabels }}
+      {{- include "ark-cluster.tplValue" (dict "value" .Values.commonLabels "context" $) | nindent 4 }}
     {{- end }}
-  {{- if .Values.commonAnnotations }}
-  annotations: {{- include "ark-cluster.persistence.game.annotations" (dict "annotations" .Values.commonAnnotations "context" $) | trim | nindent 4 }}
-  {{- end }}
+  annotations:
+    {{- include "ark-cluster.annotations" (dict "annotations" .Values.commonAnnotations "context" $) | nindent 4 }}
 spec:
   accessModes:
   {{- range .Values.persistence.game.accessModes }}
@@ -39,13 +38,12 @@ metadata:
   name: {{ template "ark-cluster.fullname" . }}-cluster
   namespace: {{ .Release.Namespace }}
   labels: {{- include "ark-cluster.labels" . | nindent 4 }}
-    component: cluster
-    {{- if .Values.commonLabels }}
-    {{- include "ark-cluster.tplValue" (dict "value" .Values.commonLabels "context" $) | nindent 4 }}
+    app.kubernetes.io/component: cluster
+    {{- if $.Values.commonLabels }}
+      {{- include "ark-cluster.tplValue" (dict "value" .Values.commonLabels "context" $) | nindent 4 }}
     {{- end }}
-  {{- if .Values.commonAnnotations }}
-  annotations: {{- include "ark-cluster.persistence.cluster.annotations" (dict "annotations" .Values.commonAnnotations "context" $) | trim | nindent 4 }}
-  {{- end }}
+  annotations:
+    {{- include "ark-cluster.annotations" (dict "annotations" .Values.commonAnnotations "context" $) | nindent 4 }}
 spec:
   accessModes:
   {{- range .Values.persistence.cluster.accessModes }}
@@ -65,26 +63,25 @@ spec:
   {{- end }}
 {{- end }}
 
-{{- $name := (include "ark-cluster.name" .) -}}
-{{- $fullname := (include "ark-cluster.fullname" .) -}}
+{{- $chart_name := (include "ark-cluster.fullname" .) -}}
 {{- $labels := (include "ark-cluster.labels" .) -}}
 {{- $selectorLabels := (include "ark-cluster.selectorLabels" .) -}}
-{{- range .Values.servers }}
+{{- range $name, $server := .Values.servers }}
 {{- if and $.Values.persistence.enabled (not $.Values.persistence.save.existingClaim) }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ $fullname }}-{{ .name }}
+  name: {{ $chart_name }}-{{ $name }}
   namespace: {{ $.Release.Namespace }}
-  labels: {{- $labels | nindent 4 }}
-    component: {{ .name }}
+  labels:
+    {{- $labels | nindent 4 }}
+    app.kubernetes.io/component: {{ $name }}
     {{- if $.Values.commonLabels }}
-    {{- include "ark-cluster.tplValue" (dict "value" $.Values.commonLabels "context" $) | nindent 4 }}
+      {{- include "ark-cluster.tplValue" (dict "value" $.Values.commonLabels "context" $) | nindent 4 }}
     {{- end }}
-  {{- if $.Values.commonAnnotations }}
-  annotations: {{- include "ark-cluster.persistence.save.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | trim | nindent 4 }}
-  {{- end }}
+  annotations:
+    {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | nindent 4 }}
 spec:
   accessModes:
   {{- range $.Values.persistence.save.accessModes }}
@@ -100,7 +97,7 @@ spec:
   {{- if $.Values.persistence.save.existingVolume }}
   volumeName: {{ $.Values.persistence.save.existingVolume | quote }}
   {{- else }}
-  volumeName: {{ $fullname }}-{{ .name }}
+  volumeName: {{ $chart_name }}-{{ $name }}
   {{- end }}
 {{- end }}
 {{- end }}
