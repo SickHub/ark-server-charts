@@ -161,7 +161,7 @@ spec:
 
 ## Contributing
 * Create issues, create PRs, ... let's make this better together.
-* See [Contributing](CONTRIBUTING.md)
+* See [Contributing](../../CONTRIBUTING.md)
 
 ## Credits
 Inspired by
