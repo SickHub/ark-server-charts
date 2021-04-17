@@ -25,7 +25,7 @@ topologySpreadConstraints: {}
 image:
   registry: docker.io
   repository: drpsychick/arkcluster
-  tag: latest
+  tag: bionic
   pullSecrets: []
   pullPolicy: Always
 

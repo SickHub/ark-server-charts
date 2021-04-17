@@ -1,4 +1,5 @@
 fullnameOverride: clustertest
+clusterName: clustertest
 mods:
   - "731604991"
   - "889745138"
