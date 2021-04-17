@@ -1,4 +1,5 @@
 [![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/ark-server-charts)](https://artifacthub.io/packages/search?repo=ark-server-charts)
+[![CircleCI](https://img.shields.io/circleci/build/github/DrPsychick/ark-server-charts)](https://app.circleci.com/pipelines/github/DrPsychick/ark-server-charts)
 [![license](https://img.shields.io/github/license/drpsychick/ark-server-charts.svg)](https://github.com/drpsychick/ark-server-charts/blob/master/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/drpsychick/ark-server-charts.svg)](https://github.com/drpsychick/ark-server-charts)
 [![Contributors](https://img.shields.io/github/contributors/drpsychick/ark-server-charts.svg)](https://github.com/drpsychick/ark-server-charts/graphs/contributors)
@@ -20,3 +21,7 @@ helm search repo ark
 ```
 
 On Artifact Hub: https://artifacthub.io/packages/search?repo=ark-server-charts
+
+## Contributing
+* Create issues, create PRs, ... let's make this better together.
+* See [Contributing](CONTRIBUTING.md)
