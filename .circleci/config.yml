@@ -9,7 +9,7 @@ aliases:
     - run:
         name: Lint charts
         command: |
-          ct lint --chart-dirs ${CHARTS_DIR} --all --debug
+          ct lint --all --chart-dirs ${CHARTS_DIR} --debug
   - &deploy
     - checkout
     - setup_remote_docker:
