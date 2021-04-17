@@ -89,11 +89,13 @@ aliases:
 jobs:
   lint:
     docker: *chart-testing
+    resource_class: small
     environment:
       CHARTS_DIR: charts
     steps: *lint
   deploy:
     docker: *docker-dind
+    resource_class: small
     environment:
       CHARTS_DIR: charts
       BASH_ENV: /etc/profile
