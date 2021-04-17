@@ -47,7 +47,7 @@ metadata:
     checksum/values: {{ toYaml $.Values | sha256sum | trunc 10 | quote }}
     {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | indent 4 }}
 spec:
-  {{- if hasKey $.Values "replicaCount" }}
+  {{- if $.Values.replicaCount }}
   replicas: {{ $.Values.replicaCount }}
   {{- end }}
   selector:
@@ -261,10 +261,10 @@ spec:
           emptyDir: {}
           {{- else if $.Values.persistence.save.existingClaim }}
           persistentVolumeClaim:
-            claimName: {{ printf "%s" (tpl $.Values.persistence.save.existingClaim .) }}
+            claimName: {{ printf "%s-%s" (tpl $.Values.persistence.save.existingClaim .) $name }}
           {{- else }}
           persistentVolumeClaim:
-            claimName: {{ $chart_name }}-{{ $name }}
+            claimName: {{ printf "%s-%s" $chart_name $name }}
           {{- end }}
         {{- if $.Values.extraVolumes }}
         {{- toYaml $.Values.extraVolumes | nindent 8 }}

@@ -14,8 +14,9 @@
 * requires helm v3
 
 ```shell script
-helm repo add drpsychick https://drpsychick.github.io/ark-server-charts
-helm search repo drpsychick
+helm repo add ark https://drpsychick.github.io/ark-server-charts
+helm repo update
+helm search repo ark
 ```
 
 On Artifact Hub: https://artifacthub.io/packages/search?repo=ark-server-charts

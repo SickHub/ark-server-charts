@@ -1,13 +1,13 @@
-# ARK Survival Evolved cluster helm chart
+# ark-cluster : an ARK Survival Evolved cluster Helm Chart
 ARK Survival Evolved is sandbox survival game available for example on Steam: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
 
 ## How It Works
-The chart is based on docker image https://github.com/thmhoag/arkserver 
+The chart is based on the docker image https://github.com/thmhoag/arkserver 
 which uses `arkmanager` (https://github.com/arkmanager/ark-server-tools) 
 to install and update ARK from steam as well as mods.
 
-It creates a deployment for each server defined in your `values.yaml`, with `replicaCount=0` by default.
-All servers will share the `ShooterGame` server files and `clusters` directory.
+It creates a deployment for each server defined in your `values.yaml`, with `replicas: 0` by default.
+All servers will share the `ShooterGame` server files and `clusters` directory, once you have [persistence](#persistence) configured.
 
 ### Requirements for Kubernetes
 * ARK communicates its port to the client, thus the external port must be identical to the port where the ARK pod is listening.
@@ -16,22 +16,23 @@ All servers will share the `ShooterGame` server files and `clusters` directory.
   * one volume for each server (mounted as `/arkserver/ShooterGame/Saved`)
   * one volume for the shared cluster files (mounted as `/arkserver/ShooterGame/Saved/clusters`)
 
-### Installation
-First start ONE server, he should also have all mods configured that you want to use
+## Deploy ark-cluster
+First start ONE server, he should also have all mods configured that you want to use.
+
+You **must** configure [`persistence`](#persistence), if you want your data to be persisted (Game, Saved, ... everything).
 
 ```shell script
-helm repo add drpsychick https://drpsychick.github.io/ark-server-charts
+helm repo add ark https://drpsychick.github.io/ark-server-charts
 helm repo update
-helm search repo drpsychick
-helm upgrade --create-namespace --install --values values.yaml arkcluster1 drpsychick/ark-cluster
+helm search repo ark
+helm upgrade --create-namespace --namespace ark --install --values values.yaml arkcluster ark/ark-cluster
 ```
 
-Start the server with the following settings:
+Start the **first** server with the following setting:
 ```yaml
 servers:
-  - name: extinction
+  extinction:
     updateOnStart: true
-    mods: [ "889745138", "731604991", ... ]
 ```
 
 This will download and install ark server and modules.
@@ -40,14 +41,14 @@ This will download and install ark server and modules.
 Minimal definition of a server:
 ```yaml
 servers:
-  - name: extinction
+  extinction:
     map: Extinction
 ```
 
 If you only have 1 public IP address available, you **must** set ports for each server:
 ```yaml
 servers:
-  - name: extinction
+  extinction:
     ports:
       queryudp: 27015
       gameudp: 7770
@@ -56,9 +57,11 @@ servers:
 
 #### Custom .ini files
 Can be configured globally on top level as well as per server. A change in config will then result in a restart of the server.
+
+You can access attributes of your `servers` entry with `.server.attributeName`, see XPMultiplier:
 ```yaml
 servers:
-  - name: extinction
+  extinction:
     customConfigMap:
       GameIni: |
         [/Script/ShooterGame.ShooterGameMode]
@@ -74,13 +77,55 @@ servers:
         EggHatchSpeedMultiplier=15.0
         BabyCuddleIntervalMultiplier=0.1
       GameUserSettingsIni: |
+        [/Script/ShooterGame.ShooterGameUserSettings]
+        Version=5
         [ServerSettings]
         AllowFlyerCarryPvE=True
         AllowThirdPersonPlayer=True
         AlwaysNotifyPlayerLeft=False
         AutoSavePeriodMinutes=15.000000
         ClampResourceHarvestDamage=False
+        XPMultiplier={{ .server.xpMultiplier }}
         [...]
+```
+
+### Persistence
+Ways of configuring persistence. If you don't configure persistence, the game will be downloaded in `emptyDir` and all changes lost when the pod is deleted.
+1. provide a `PersistentVolume` for game, cluster and each server
+2. provide an `existingClaim` for game, cluster and each server
+
+#### 1. Provide `PersistentVolume`
+When you enable persistence, the chart will create the `PersistentVolumeClaim`s for you. It then expects to bind these claims
+with volumes of the same name: `<cluster-name>-game`, `<cluster-name>-cluster` and `<cluster-name>-<server-name>`
+```yaml
+persistence:
+  enabled: true
+```
+Alternatively you can point to existing volumes with `existingVolume`:
+```yaml
+persistence:
+  enabled: true
+  game:
+    existingVolume: ark-game
+  cluster:
+    existingVolume: ark-cluster
+  save:
+    # server name will be appended, e.g. `ark-extinction`
+    existingVolume: ark
+```
+
+#### 2. Provide `existingClaim`
+You can simply provide existing `PersistentVolumeClaims`s for each volume:
+```yaml
+persistence:
+  enabled: true
+  game:
+    existingClaim: ark-game
+  cluster:
+    existingClaim: ark-cluster
+  save:
+    # server name will be appended, e.g. `ark-extinction`
+    existingClaim: ark
 ```
 
 ### Shared Server Files
@@ -113,6 +158,10 @@ spec:
     limits.cpu: "4.5"
     limits.memory: 24Gi
 ```
+
+## Contributing
+* Create issues, create PRs, ... let's make this better together.
+* See [Contributing](CONTRIBUTING.md)
 
 ## Credits
 Inspired by

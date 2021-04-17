@@ -1,6 +1,4 @@
 fullnameOverride: clustertest
-persistence:
-  enabled: false
 mods:
   - "731604991"
   - "889745138"

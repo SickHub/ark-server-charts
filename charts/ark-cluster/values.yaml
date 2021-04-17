@@ -37,10 +37,9 @@ restartPolicy: Always
 # Time for the server to shutdown gracefully
 terminationGracePeriodSeconds: 60
 
-# If you set replicaCount it will be updated with every deploy
-# If you do NOT set replicaCount, it's not touched with a deploy
+# Defaults to 1, we set this to 0 so servers don't start automatically after deploy
 #
-# replicaCount: 0
+replicaCount: 0
 
 # Attach pod directly to host network
 # Implies: `service.enabled: false`
@@ -158,7 +157,7 @@ containerPorts:
 # ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 #
 persistence:
-  enabled: true
+  enabled: false
 
   # game files from steam, the largest volume, includes installed mods
   game:
@@ -168,6 +167,9 @@ persistence:
       - ReadWriteOnce
     size: 30Gi
     annotations: {}
+
+    # mountPath is used regardless if `persistence` is enabled
+    # this is the mount point in the pod image
     mountPath: /arkserver
 
   # shared cluster files
@@ -181,7 +183,13 @@ persistence:
   # contains the world save game and configuration files
   # keeping a backup of this is enough to get your server back up
   save:
-    # A manually managed Persistent Volume Claim
+    # A named, existing Persistent Volume, if none given, the name
+    # will be generated: <cluster-name>-<server-name>
+    #
+    # existingVolume:
+
+    # A manually managed Persistent Volume Claim, if none given, the PVC
+    # will be created with the name: <cluster-name>-<server-name>
     #
     # existingClaim:
 
@@ -189,10 +197,6 @@ persistence:
     # Value of Filesystem is implied when not included in claim spec.
     #
     # volumeMode: Filesystem
-
-    # A named, existing Persistent Volume
-    #
-    # existingVolume:
 
     # PV Storage Class
     # If defined, storageClassName: <storageClass>
