@@ -9,7 +9,7 @@ aliases:
     - run:
         name: Lint charts
         command: |
-          ct lint --chart-dirs=${CHARTS_DIR} --check-version-increment=false
+          ct lint --chart-dirs=${CHARTS_DIR} --check-version-increment=false --all
   - &deploy
     - checkout
     - setup_remote_docker:
@@ -44,7 +44,7 @@ aliases:
     - run:
         name: Lint charts
         command: |
-          ct lint --remote origin --chart-dirs=${CHARTS_DIR} --check-version-increment=false
+          ct lint --remote origin --chart-dirs=${CHARTS_DIR} --check-version-increment=false --all
     - run:
         name: Package charts
         command: |
