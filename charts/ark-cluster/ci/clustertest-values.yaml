@@ -1,5 +1,6 @@
 fullnameOverride: clustertest
 clusterName: clustertest
+replicaCount: 0
 mods:
   - "731604991"
   - "889745138"
