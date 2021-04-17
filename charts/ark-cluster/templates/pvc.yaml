@@ -10,8 +10,10 @@ metadata:
     {{- if $.Values.commonLabels }}
       {{- include "ark-cluster.tplValue" (dict "value" .Values.commonLabels "context" $) | nindent 4 }}
     {{- end }}
+  {{- if .Values.commonAnnotations }}
   annotations:
     {{- include "ark-cluster.annotations" (dict "annotations" .Values.commonAnnotations "context" $) | nindent 4 }}
+  {{- end }}
 spec:
   accessModes:
   {{- range .Values.persistence.game.accessModes }}
@@ -42,8 +44,10 @@ metadata:
     {{- if $.Values.commonLabels }}
       {{- include "ark-cluster.tplValue" (dict "value" .Values.commonLabels "context" $) | nindent 4 }}
     {{- end }}
+  {{- if .Values.commonAnnotations }}
   annotations:
     {{- include "ark-cluster.annotations" (dict "annotations" .Values.commonAnnotations "context" $) | nindent 4 }}
+  {{- end }}
 spec:
   accessModes:
   {{- range .Values.persistence.cluster.accessModes }}
@@ -80,8 +84,10 @@ metadata:
     {{- if $.Values.commonLabels }}
       {{- include "ark-cluster.tplValue" (dict "value" $.Values.commonLabels "context" $) | nindent 4 }}
     {{- end }}
+  {{- if $.Values.commonAnnotations }}
   annotations:
     {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | nindent 4 }}
+  {{- end }}
 spec:
   accessModes:
   {{- range $.Values.persistence.save.accessModes }}

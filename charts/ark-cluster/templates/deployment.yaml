@@ -63,9 +63,11 @@ spec:
         app.kubernetes.io/component: {{ $name }}
         {{- include "ark-cluster.tplValue" (dict "value" $.Values.podLabels "context" $) | nindent 8 }}
         {{- include "ark-cluster.tplValue" (dict "value" $.Values.commonLabels "context" $) | nindent 8 }}
+      {{- if or $.Values.commonAnnotations $.Values.podAnnotations }}
       annotations:
         {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | indent 8 }}
         {{- include "ark-cluster.annotations" (dict "annotations" $.Values.podAnnotations "context" $) | indent 8 }}
+      {{- end }}
     spec:
       restartPolicy: {{ $.Values.restartPolicy }}
       {{- if $.Values.dnsPolicy }}
