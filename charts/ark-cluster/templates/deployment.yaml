@@ -5,7 +5,7 @@
 {{- $image := (include "ark-cluster.image" .) }}
 {{- /*
 Loop over `servers`
-  * echo server must have basic settings (map, sessionName, ...)
+  * each server must have basic settings (map, sessionName, ...)
   * each server can overwrite ports, env
 */}}
 {{- range $name, $server := .Values.servers }}
@@ -147,7 +147,7 @@ spec:
             - name: am_ark_RCONPort
               value: {{ $rcon | quote }}
             {{- if $rconpass }}
-            - name: ark_ServerAdminPassword
+            - name: am_ark_ServerAdminPassword
               value: {{ $rconpass | quote }}
             {{- end }}
             - name: am_ark_GameModIds
