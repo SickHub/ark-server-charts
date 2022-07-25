@@ -153,6 +153,12 @@ containerPorts:
   queryudp: 27015
   rcon: 32330
 
+service:
+  # enable a service per server
+  enabled: false
+  # Enable metallb shared ip
+  metallb: false
+
 # Enable persistence using Persistent Volume Claims
 # ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 #

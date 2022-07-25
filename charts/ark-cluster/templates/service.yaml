@@ -1,0 +1,74 @@
+{{- if and .Values.service.enabled }}
+{{- $chart_name := (include "ark-cluster.fullname" .) }}
+{{- $labels := (include "ark-cluster.labels" .) }}
+{{- $gameudp := $.Values.containerPorts.gameudp }}
+{{- $queryudp := $.Values.containerPorts.queryudp }}
+{{- $rcon := $.Values.containerPorts.rcon -}}
+{{- if .ports }}
+  {{- $gameudp = default $gameudp .ports.gameudp }}
+  {{- $queryudp = default $queryudp .ports.queryudp }}
+  {{- $rcon = default $rcon .ports.rcon }}
+{{- end }}
+{{- range $name, $server := .Values.servers }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $chart_name }}-{{ $name }}-tcp
+  namespace: {{ $.Release.Namespace }}
+  labels: {{- $labels | nindent 4 }}
+    app.kubernetes.io/component: {{ $name }}
+    {{- if $.Values.commonLabels }}
+      {{- include "ark-cluster.tplValue" (dict "value" $.Values.commonLabels "context" $) | nindent 4 }}
+    {{- end }}
+  {{- if or $.Values.commonAnnotations $.Values.service.metallb }}
+  annotations:
+    {{- if $.Values.service.metallb }}
+      metallb.universe.tf/allow-shared-ip: {{ $chart_name }}-{{ $name }}
+    {{- end }}
+    {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | nindent 4 }}
+  {{- end }}
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  ports:
+  - port: {{ $rcon }}
+    name: rcon
+    targetPort: {{ $rcon }}
+  selector:
+    app.kubernetes.io/component: {{ $name }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $chart_name }}-{{ $name }}-udp
+  namespace: {{ $.Release.Namespace }}
+  labels: {{- $labels | nindent 4 }}
+    app.kubernetes.io/component: {{ $name }}
+    {{- if $.Values.commonLabels }}
+      {{- include "ark-cluster.tplValue" (dict "value" $.Values.commonLabels "context" $) | nindent 4 }}
+    {{- end }}
+  {{- if or $.Values.commonAnnotations $.Values.service.metallb }}
+  annotations:
+    {{- if $.Values.service.metallb }}
+      metallb.universe.tf/allow-shared-ip: {{ $chart_name }}-{{ $name }}
+    {{- end }}
+    {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | nindent 4 }}
+  {{- end }}
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  ports:
+  - port: {{ $gameudp }}
+    name: game
+    targetPort: {{ $gameudp }}
+  - port: {{ $queryudp }}
+    name: query
+    targetPort: {{ $queryudp }}
+  selector:
+    app.kubernetes.io/component: {{ $name }}
+
+{{- end }}
+{{- end }}
+
