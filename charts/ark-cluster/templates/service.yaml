@@ -4,12 +4,12 @@
 {{- $gameudp := $.Values.containerPorts.gameudp }}
 {{- $queryudp := $.Values.containerPorts.queryudp }}
 {{- $rcon := $.Values.containerPorts.rcon -}}
+{{- range $name, $server := .Values.servers }}
 {{- if .ports }}
   {{- $gameudp = default $gameudp .ports.gameudp }}
   {{- $queryudp = default $queryudp .ports.queryudp }}
   {{- $rcon = default $rcon .ports.rcon }}
 {{- end }}
-{{- range $name, $server := .Values.servers }}
 ---
 apiVersion: v1
 kind: Service

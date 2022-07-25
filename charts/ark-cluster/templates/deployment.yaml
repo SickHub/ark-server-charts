@@ -36,7 +36,7 @@ Loop over `servers`
 {{- end }}
 {{- $replicaCount := default 0 $.Values.replicaCount }}
 {{- if .replicaCount }}
-  {{= $replicaCount = .replicaCount }}
+  {{- $replicaCount = .replicaCount }}
 {{- end }}
 apiVersion: apps/v1
 kind: Deployment
@@ -51,9 +51,7 @@ metadata:
     checksum/values: {{ toYaml $.Values | sha256sum | trunc 10 | quote }}
     {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | indent 4 }}
 spec:
-  {{- if $replicaCount }}
   replicas: {{ $replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- $selectorLabels | nindent 6 }}
