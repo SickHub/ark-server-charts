@@ -35,7 +35,7 @@ entries:
         - name: Image source
           url: https://github.com/DrPsychick/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
     created: "2022-08-13T14:38:34.803839+02:00"
@@ -62,9 +62,9 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/DrPsychick/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
     created: "2022-08-13T14:38:34.802809+02:00"
@@ -91,9 +91,9 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/DrPsychick/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
     created: "2022-08-13T14:38:34.801125+02:00"
@@ -120,9 +120,9 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/DrPsychick/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
     created: "2022-08-13T14:38:34.80015+02:00"
@@ -149,9 +149,9 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/thmhoag/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
     created: "2022-08-13T14:38:34.79923+02:00"
@@ -172,9 +172,9 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/thmhoag/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
     created: "2022-08-13T14:38:34.798622+02:00"
@@ -195,9 +195,9 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/thmhoag/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
     created: "2022-08-13T14:38:34.798063+02:00"
@@ -218,9 +218,9 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/thmhoag/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
     created: "2022-08-13T14:38:34.797361+02:00"
@@ -241,9 +241,9 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/thmhoag/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
     created: "2022-08-13T14:38:34.796598+02:00"
