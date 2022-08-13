@@ -4,9 +4,9 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/DrPsychick/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
     created: "2021-07-09T18:57:27.313886+02:00"
@@ -33,9 +33,9 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/DrPsychick/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
     created: "2021-07-09T18:57:27.31305+02:00"
@@ -62,9 +62,9 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/DrPsychick/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
     created: "2021-07-09T18:57:27.312232+02:00"
@@ -91,9 +91,9 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/DrPsychick/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
     created: "2021-07-09T18:57:27.31137+02:00"
@@ -120,9 +120,9 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/thmhoag/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
     created: "2021-07-09T18:57:27.310559+02:00"
@@ -143,9 +143,9 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/thmhoag/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
     created: "2021-07-09T18:57:27.309699+02:00"
@@ -166,9 +166,9 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/thmhoag/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
     created: "2021-07-09T18:57:27.308964+02:00"
@@ -189,9 +189,9 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/thmhoag/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
     created: "2021-07-09T18:57:27.308091+02:00"
@@ -212,9 +212,9 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/thmhoag/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
     created: "2021-07-09T18:57:27.306499+02:00"
