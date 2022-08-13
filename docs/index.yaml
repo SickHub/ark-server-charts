@@ -9,65 +9,7 @@ entries:
           url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
-    created: "2022-08-13T15:02:43.786886+02:00"
-    description: A Helm chart for an Ark - Survival Evolved cluster
-    digest: 2e18e650507934d0aa995e92e422bb563f56fa207b054e0a0913d557524bc715
-    home: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
-    icon: https://raw.githubusercontent.com/DrPsychick/ark-server-charts/master/charts/ark-cluster/icon.png
-    keywords:
-    - game
-    - server
-    - steam
-    - ark
-    maintainers:
-    - email: drpsychick@drsick.net
-      name: DrPsychick
-      url: https://github.com/DrPsychick
-    name: ark-cluster
-    sources:
-    - https://github.com/DrPsychick/ark-server-charts
-    type: application
-    urls:
-    - https://drpsychick.github.io/ark-server-charts/ark-cluster-0.1.5.tgz
-    version: 0.1.5
-  - annotations:
-      artifacthub.io/links: |
-        - name: Image source
-          url: https://github.com/SickHub/arkserver
-        - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkserver
-    apiVersion: v2
-    appVersion: latest
-    created: "2022-08-13T15:02:43.786015+02:00"
-    description: A Helm chart for an Ark - Survival Evolved cluster
-    digest: 2df70317b90a86feb5fbdb70cd51898b1a563bc9b4d6f5201e4e3f4bee00d53e
-    home: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
-    icon: https://raw.githubusercontent.com/DrPsychick/ark-server-charts/master/charts/ark-cluster/icon.png
-    keywords:
-    - game
-    - server
-    - steam
-    - ark
-    maintainers:
-    - email: drpsychick@drsick.net
-      name: DrPsychick
-      url: https://github.com/DrPsychick
-    name: ark-cluster
-    sources:
-    - https://github.com/DrPsychick/ark-server-charts
-    type: application
-    urls:
-    - https://drpsychick.github.io/ark-server-charts/ark-cluster-0.1.4.tgz
-    version: 0.1.4
-  - annotations:
-      artifacthub.io/links: |
-        - name: Image source
-          url: https://github.com/SickHub/arkserver
-        - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
-    apiVersion: v2
-    appVersion: latest
-    created: "2022-08-13T15:02:43.784758+02:00"
+    created: "2021-07-09T18:57:27.313886+02:00"
     description: A Helm chart for an Ark - Survival Evolved cluster
     digest: 25fc53f91af960ec73d1bc91aa00620f3f4024716214e67c9e46f581a1e568d8
     home: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
@@ -91,12 +33,12 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/DrPsychick/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
-    created: "2022-08-13T15:02:43.783811+02:00"
+    created: "2021-07-09T18:57:27.31305+02:00"
     description: A Helm chart for an Ark - Survival Evolved cluster
     digest: a9a692b2a782f27e86fc92cba142b6416eca8cb5fc0b24425d30b9721863a82c
     home: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
@@ -120,12 +62,12 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/DrPsychick/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
-    created: "2022-08-13T15:02:43.782625+02:00"
+    created: "2021-07-09T18:57:27.312232+02:00"
     description: A Helm chart for an Ark - Survival Evolved cluster
     digest: a7a125ef4c7d3496062e9f9b094003a4f17e93d72a50e66f71c911be1615575f
     home: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
@@ -149,12 +91,12 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/DrPsychick/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
-    created: "2022-08-13T15:02:43.781696+02:00"
+    created: "2021-07-09T18:57:27.31137+02:00"
     description: A Helm chart for an Ark - Survival Evolved cluster
     digest: 46d9fc3ec4f69e627af682c4333a3981e6e1853dac6fe44c9b8b912533e95a55
     home: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
@@ -178,12 +120,12 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/thmhoag/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
-    created: "2022-08-13T15:02:43.780765+02:00"
+    created: "2021-07-09T18:57:27.310559+02:00"
     description: A Helm chart for an Ark - Survival Evolved cluster
     digest: cb05be2e8b35063b3e0239a39c8e9bfe6d3307bfd01e18860ad5895b173daaa0
     home: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
@@ -201,12 +143,12 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/thmhoag/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
-    created: "2022-08-13T15:02:43.780148+02:00"
+    created: "2021-07-09T18:57:27.309699+02:00"
     description: A Helm chart for an Ark - Survival Evolved cluster
     digest: b97a1edfabc647bde89516fff30ed0b8546bca020b1a4d77f3dd8d0713237bac
     home: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
@@ -224,12 +166,12 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/thmhoag/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
-    created: "2022-08-13T15:02:43.779475+02:00"
+    created: "2021-07-09T18:57:27.308964+02:00"
     description: A Helm chart for an Ark - Survival Evolved cluster
     digest: 4190dcfcfdafdfbb89b5faafe400376ddfa79fab045c183cfa5c6849b7bb2edc
     home: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
@@ -247,12 +189,12 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/thmhoag/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
-    created: "2022-08-13T15:02:43.777714+02:00"
+    created: "2021-07-09T18:57:27.308091+02:00"
     description: A Helm chart for an Ark - Survival Evolved cluster
     digest: ac5b49a9781c795ef911a590e9949d8d080643b643005417ad020d0c3e18f49b
     home: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
@@ -270,12 +212,12 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/thmhoag/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
-          url: https://hub.docker.com/r/drpsychick/arkcluster
+          url: https://hub.docker.com/r/drpsychick/arkserver
     apiVersion: v2
     appVersion: latest
-    created: "2022-08-13T15:02:43.776939+02:00"
+    created: "2021-07-09T18:57:27.306499+02:00"
     description: A Helm chart for an Ark - Survival Evolved cluster
     digest: 1d7abdc456b553e5b533d7a3c8ae6f6cd9feacb1d03f8406f209653a132b9b40
     home: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
@@ -290,4 +232,4 @@ entries:
     urls:
     - https://drpsychick.github.io/ark-server-charts/ark-cluster-0.0.10.tgz
     version: 0.0.10
-generated: "2022-08-13T15:02:43.776169+02:00"
+generated: "2021-07-09T18:57:27.305073+02:00"
