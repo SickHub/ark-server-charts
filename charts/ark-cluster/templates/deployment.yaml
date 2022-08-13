@@ -150,7 +150,7 @@ spec:
               value: {{ $rconpass | quote }}
             {{- end }}
             - name: am_ark_GameModIds
-              value: '{{ join "," $mods | quote }}'
+              value: {{ join "," $mods | quote }}
             - name: am_arkGameIniFile
               value: /arkconfig/Game.ini
             - name: am_arkGameUserSettingsIniFile
