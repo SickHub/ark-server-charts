@@ -1,6 +1,6 @@
 apiVersion: v2
 name: ark-cluster
-version: 0.1.3
+version: 0.1.4
 description: A Helm chart for an Ark - Survival Evolved cluster
 type: application
 appVersion: latest
@@ -20,6 +20,6 @@ maintainers:
 annotations:
   artifacthub.io/links: |
     - name: Image source
-      url: https://github.com/DrPsychick/arkserver
+      url: https://github.com/SickHub/arkserver
     - name: Image DockerHub
-      url: https://hub.docker.com/r/drpsychick/arkcluster
+      url: https://hub.docker.com/r/drpsychick/arkserver
