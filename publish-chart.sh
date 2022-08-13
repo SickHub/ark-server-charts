@@ -15,6 +15,7 @@ function bumpChartVersion() {
 git checkout gh-pages
 git pull
 git rebase master
+git pull
 git push
 
 for c in ark-cluster; do
