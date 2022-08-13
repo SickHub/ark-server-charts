@@ -62,7 +62,7 @@ entries:
   - annotations:
       artifacthub.io/links: |
         - name: Image source
-          url: https://github.com/DrPsychick/arkserver
+          url: https://github.com/SickHub/arkserver
         - name: Image DockerHub
           url: https://hub.docker.com/r/drpsychick/arkcluster
     apiVersion: v2
