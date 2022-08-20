@@ -121,10 +121,8 @@ spec:
               value: ""
             - name: ARKSERVER_SHARED
               value: {{ $.Values.persistence.game.mountPath | quote }}
-            {{- if .updateOnStart }}
             - name: am_arkAutoUpdateOnStart
-              value: "true"
-            {{- end }}
+              value: {{ default "false" .updateOnStart | quote }}
             - name: am_ark_SessionName
               value: {{ .sessionName | quote }}
             - name: am_serverMap
