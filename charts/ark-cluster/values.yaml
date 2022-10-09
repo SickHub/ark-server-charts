@@ -159,6 +159,10 @@ containerPorts:
 persistence:
   enabled: false
 
+  # use generic existing volume names prefixed with <cluster-name>: -game, -cluster, -<server-name>
+  #
+  existingVolumes: false
+
   # game files from steam, the largest volume, includes installed mods
   game:
     accessModes:
@@ -183,8 +187,7 @@ persistence:
   # contains the world save game and configuration files
   # keeping a backup of this is enough to get your server back up
   save:
-    # A named, existing Persistent Volume, if none given, the name
-    # will be generated: <cluster-name>-<server-name>
+    # A named, existing Persistent Volume
     #
     # existingVolume:
 

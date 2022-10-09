@@ -11,7 +11,7 @@ All servers will share the `ShooterGame` server files and `clusters` directory, 
 
 ### Requirements for Kubernetes
 * ARK communicates its port to the client, thus the external port must be identical to the port where the ARK pod is listening.
-* Required persistent volumes:
+* Persistent volumes:
   * one volume for the shared server (game) files (the biggest volume) to save space (mounted as `/arkserver`)
   * one volume for each server (mounted as `/arkserver/ShooterGame/Saved`)
   * one volume for the shared cluster files (mounted as `/arkserver/ShooterGame/Saved/clusters`)
