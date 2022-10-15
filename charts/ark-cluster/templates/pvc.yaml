@@ -102,7 +102,7 @@ spec:
   {{- end }}
   {{- if $.Values.persistence.save.existingVolume }}
   volumeName: {{ printf "%s-%s" (tpl $.Values.persistence.save.existingVolume .) $name }}
-  {{- else if .Values.persistence.existingVolumes }}
+  {{- else if $.Values.persistence.existingVolumes }}
   volumeName: {{ printf "%s-%s" $chart_name $name }}
   {{- end }}
 {{- end }}
