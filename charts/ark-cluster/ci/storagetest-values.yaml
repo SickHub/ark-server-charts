@@ -1,0 +1,36 @@
+fullnameOverride: clustertest
+clusterName: clustertest
+replicaCount: 0
+mods:
+  - "731604991"
+  - "889745138"
+persistence:
+  enabled: true
+  game:
+    existingClaim: "foo"
+  cluster:
+    existingClaim: "foo"
+  save:
+    existingClaim: "foo"
+servers:
+  extinction:
+    map: Extinction
+    sessionName: TestCluster
+    xpMultiplier: 4
+    maxPlayers: 2
+    ports:
+      queryudp: 27015
+      gameudp: 7777
+      rcon: 32330
+  theisland:
+    mods: []
+    maxPlayers: 2
+    ports:
+      queryudp: 27016
+      gameudp: 7779
+      rcon: 32331
+    customConfigMap:
+      GameIni: |
+        [/Script/ShooterGame.ShooterGameMode]
+        bDisableStructurePlacementCollision=True
+        PerLevelStatsMultiplier_Player[7]=3.0
