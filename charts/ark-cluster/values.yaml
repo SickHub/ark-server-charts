@@ -156,8 +156,10 @@ containerPorts:
 service:
   # enable a service per server
   enabled: false
+  # externalTrafficPolicy: Local
+  type: ClusterIp
   # Enable metallb shared ip
-  metallb: false
+  metallb_shared_ip: false
 
 # Enable persistence using Persistent Volume Claims
 # ref: http://kubernetes.io/docs/user-guide/persistent-volumes/

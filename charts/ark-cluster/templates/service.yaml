@@ -21,16 +21,20 @@ metadata:
     {{- if $.Values.commonLabels }}
       {{- include "ark-cluster.tplValue" (dict "value" $.Values.commonLabels "context" $) | nindent 4 }}
     {{- end }}
-  {{- if or $.Values.commonAnnotations $.Values.service.metallb }}
+  {{- if or $.Values.commonAnnotations $.Values.service.metallb_shared_ip }}
   annotations:
-    {{- if $.Values.service.metallb }}
+    {{- if $.Values.service.metallb_shared_ip }}
       metallb.universe.tf/allow-shared-ip: {{ $chart_name }}-{{ $name }}
     {{- end }}
-    {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | nindent 4 }}
+    {{- if $.Values.commonAnnotations }}
+      {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | nindent 4 }}
+    {{- end}}
   {{- end }}
 spec:
-  type: LoadBalancer
-  externalTrafficPolicy: Local
+  type: {{ $.Values.service.type }}
+  {{- if $.Values.service.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ $.Values.service.externalTrafficPolicy }}
+  {{- end }}
   ports:
   - port: {{ $rcon }}
     name: rcon
@@ -49,16 +53,20 @@ metadata:
     {{- if $.Values.commonLabels }}
       {{- include "ark-cluster.tplValue" (dict "value" $.Values.commonLabels "context" $) | nindent 4 }}
     {{- end }}
-  {{- if or $.Values.commonAnnotations $.Values.service.metallb }}
+  {{- if or $.Values.commonAnnotations $.Values.service.metallb_shared_ip }}
   annotations:
-    {{- if $.Values.service.metallb }}
+    {{- if $.Values.service.metallb_shared_ip }}
       metallb.universe.tf/allow-shared-ip: {{ $chart_name }}-{{ $name }}
     {{- end }}
-    {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | nindent 4 }}
+    {{- if $.Values.commonAnnotations }}
+      {{- include "ark-cluster.annotations" (dict "annotations" $.Values.commonAnnotations "context" $) | nindent 4 }}
+    {{- end}}
   {{- end }}
 spec:
-  type: LoadBalancer
-  externalTrafficPolicy: Local
+  type: {{ $.Values.service.type }}
+  {{- if $.Values.service.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ $.Values.service.externalTrafficPolicy }}
+  {{- end }}
   ports:
   - port: {{ $gameudp }}
     name: game
