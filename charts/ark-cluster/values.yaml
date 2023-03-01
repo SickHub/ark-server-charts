@@ -157,7 +157,7 @@ service:
   # enable a service per server
   enabled: false
   # externalTrafficPolicy: Local
-  type: ClusterIp
+  type: NodePort
   # Enable metallb shared ip
   metallb_shared_ip: false
 
