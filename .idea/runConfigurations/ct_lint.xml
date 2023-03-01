@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ct-lint" type="RUN_ANYTHING_CONFIGURATION" factoryName="RunAnythingFactory">
+    <option name="arguments" value="lint --all --chart-dirs=charts" />
+    <option name="command" value="ct" />
+    <option name="inputText" value="" />
+    <option name="workingDirectory" value="" />
+    <method v="2" />
+  </configuration>
+</component>

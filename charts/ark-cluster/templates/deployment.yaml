@@ -119,15 +119,12 @@ spec:
               value: "true"
             - name: am_arkopt_clusterid
               value: {{ $.Values.clusterName | quote }}
-            # TODO: make this optional
             - name: am_arkStagingDir
               value: ""
             - name: ARKSERVER_SHARED
               value: {{ $.Values.persistence.game.mountPath | quote }}
-            {{- if .updateOnStart }}
             - name: am_arkAutoUpdateOnStart
-              value: "true"
-            {{- end }}
+              value: {{ default "false" .updateOnStart | quote }}
             - name: am_ark_SessionName
               value: {{ .sessionName | quote }}
             - name: am_serverMap
@@ -243,7 +240,7 @@ spec:
           emptyDir: {}
           {{- else if $.Values.persistence.game.existingClaim }}
           persistentVolumeClaim:
-            claimName: {{ printf "%s" (tpl $.Values.persistence.game.existingClaim .) }}
+            claimName: {{ printf "%s" $.Values.persistence.game.existingClaim }}
           {{- else }}
           persistentVolumeClaim:
             claimName: {{ $chart_name }}-game
@@ -254,7 +251,7 @@ spec:
           emptyDir: {}
           {{- else if $.Values.persistence.cluster.existingClaim }}
           persistentVolumeClaim:
-            claimName: {{ printf "%s" (tpl $.Values.persistence.cluster.existingClaim .) }}
+            claimName: {{ printf "%s" $.Values.persistence.cluster.existingClaim }}
           {{- else }}
           persistentVolumeClaim:
             claimName: {{ $chart_name }}-cluster
@@ -265,7 +262,7 @@ spec:
           emptyDir: {}
           {{- else if $.Values.persistence.save.existingClaim }}
           persistentVolumeClaim:
-            claimName: {{ printf "%s-%s" (tpl $.Values.persistence.save.existingClaim .) $name }}
+            claimName: {{ printf "%s-%s" $.Values.persistence.save.existingClaim $name }}
           {{- else }}
           persistentVolumeClaim:
             claimName: {{ printf "%s-%s" $chart_name $name }}

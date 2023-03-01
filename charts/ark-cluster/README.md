@@ -2,7 +2,7 @@
 ARK Survival Evolved is sandbox survival game available for example on Steam: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
 
 ## How It Works
-The chart is based on the docker image https://github.com/thmhoag/arkserver 
+The chart is based on the docker image https://github.com/SickHub/arkserver (previously https://github.com/drpsychick/arkserver forked from https://github.com/thmhoag/arkserver)
 which uses `arkmanager` (https://github.com/arkmanager/ark-server-tools) 
 to install and update ARK from steam as well as mods.
 
@@ -11,13 +11,14 @@ All servers will share the `ShooterGame` server files and `clusters` directory, 
 
 ### Requirements for Kubernetes
 * ARK communicates its port to the client, thus the external port must be identical to the port where the ARK pod is listening.
-* Required persistent volumes:
+* Persistent volumes:
   * one volume for the shared server (game) files (the biggest volume) to save space (mounted as `/arkserver`)
   * one volume for each server (mounted as `/arkserver/ShooterGame/Saved`)
   * one volume for the shared cluster files (mounted as `/arkserver/ShooterGame/Saved/clusters`)
 
 ## Deploy ark-cluster
-First start ONE server, he should also have all mods configured that you want to use.
+Only configure ONE server to do `updateOnStart`, all other servers will wait for the server and mods to be up to date 
+before starting the server. The server doing the updates should thus be the one with ALL mods configured you want to use.
 
 You **must** configure [`persistence`](#persistence), if you want your data to be persisted (Game, Saved, ... everything).
 
@@ -90,7 +91,8 @@ servers:
 ```
 
 ### Persistence
-Ways of configuring persistence. If you don't configure persistence, the game will be downloaded in `emptyDir` and all changes lost when the pod is deleted.
+Ways of configuring persistence. If you don't configure persistence, the game will be downloaded in `emptyDir` and all 
+changes lost when the pod is deleted.
 1. provide a `PersistentVolume` for game, cluster and each server
 2. provide an `existingClaim` for game, cluster and each server
 
@@ -129,8 +131,6 @@ persistence:
 ```
 
 ### Shared Server Files
-TODO: make this optional!
-
 Server files are shared across multiple ARK instances of the cluster
 ```yaml
 extraEnvVars:
@@ -151,7 +151,6 @@ metadata:
   name: arkcluster-quota
 spec:
   hard:
-    # limit to max 3 running servers
     requests.cpu: "3"
     requests.memory: 18Gi
     # limit to max 3 running servers
@@ -166,5 +165,5 @@ spec:
 ## Credits
 Inspired by
 * https://github.com/itzg/minecraft-server-charts
-* https://github.com/thmhoag/arkserver
+* https://github.com/SickHub/arkserver
 * Icon from [Freepik](https://www.freepik.com) found on [Flaticon](https://www.flaticon.com/)

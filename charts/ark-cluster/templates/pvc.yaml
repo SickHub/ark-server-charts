@@ -28,7 +28,7 @@ spec:
   {{- end }}
   {{- if .Values.persistence.game.existingVolume }}
   volumeName: {{ tpl .Values.persistence.game.existingVolume . }}
-  {{- else }}
+  {{- else if .Values.persistence.existingVolumes }}
   volumeName: {{ template "ark-cluster.fullname" . }}-game
   {{- end }}
 {{- end }}
@@ -62,7 +62,7 @@ spec:
   {{- end }}
   {{- if .Values.persistence.game.existingVolume }}
   volumeName: {{ tpl .Values.persistence.cluster.existingVolume . }}
-  {{- else }}
+  {{- else if .Values.persistence.existingVolumes }}
   volumeName: {{ template "ark-cluster.fullname" . }}-cluster
   {{- end }}
 {{- end }}
@@ -102,7 +102,7 @@ spec:
   {{- end }}
   {{- if $.Values.persistence.save.existingVolume }}
   volumeName: {{ printf "%s-%s" (tpl $.Values.persistence.save.existingVolume .) $name }}
-  {{- else }}
+  {{- else if $.Values.persistence.existingVolumes }}
   volumeName: {{ printf "%s-%s" $chart_name $name }}
   {{- end }}
 {{- end }}
