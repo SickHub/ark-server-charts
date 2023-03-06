@@ -71,9 +71,11 @@ spec:
   - port: {{ $gameudp }}
     name: game
     targetPort: {{ $gameudp }}
+    protocol: UDP
   - port: {{ $queryudp }}
     name: query
     targetPort: {{ $queryudp }}
+    protocol: UDP
   selector:
     app.kubernetes.io/component: {{ $name }}
 
