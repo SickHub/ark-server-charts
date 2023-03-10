@@ -37,7 +37,7 @@ When submitting a PR make sure that it:
 ### Adding a new chart to the repository
 
 There are only three major requirements to add a new chart to the catalog:
-- The chart must use public container images. If they don't exist, you can [open a GitHub issue](https://github.com/DrPsychick/ark-server-charts/issues/new/choose) and we will work together to create them.
+- The chart must use public container images. If they don't exist, you can [open a GitHub issue](https://github.com/SickHub/ark-server-charts/issues/new/choose) and we will work together to create them.
 - Follow the same structure/patterns that the rest of the charts and other publicly accepted examples
   - See https://github.com/bitnami/charts/tree/master/template
   - And [Best Practices for Creating Production-Ready Helm charts](https://docs.bitnami.com/tutorials/production-ready-charts/)

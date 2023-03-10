@@ -23,7 +23,7 @@ before starting the server. The server doing the updates should thus be the one 
 You **must** configure [`persistence`](#persistence), if you want your data to be persisted (Game, Saved, ... everything).
 
 ```shell script
-helm repo add ark https://drpsychick.github.io/ark-server-charts
+helm repo add ark https://sickhub.github.io/ark-server-charts
 helm repo update
 helm search repo ark
 helm upgrade --create-namespace --namespace ark --install --values values.yaml arkcluster ark/ark-cluster
