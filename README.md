@@ -1,5 +1,5 @@
 [![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/ark-server-charts)](https://artifacthub.io/packages/search?repo=ark-server-charts)
-[![CircleCI](https://img.shields.io/circleci/build/github/SickHub/ark-server-charts)](https://app.circleci.com/pipelines/github/SickHub/ark-server-charts)
+[![Workflow Status](https://img.shields.io/github/actions/workflow/status/sickhub/ark-server-charts/release.yaml)](https://github.com/SickHub/ark-server-charts/actions)
 [![license](https://img.shields.io/github/license/sickhub/ark-server-charts.svg)](https://github.com/sickhub/ark-server-charts/blob/master/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/sickhub/ark-server-charts.svg)](https://github.com/sickhub/ark-server-charts)
 [![Contributors](https://img.shields.io/github/contributors/sickhub/ark-server-charts.svg)](https://github.com/sickhub/ark-server-charts/graphs/contributors)
