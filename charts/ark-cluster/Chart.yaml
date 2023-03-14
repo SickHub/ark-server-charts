@@ -5,7 +5,7 @@ description: A Helm chart for an Ark - Survival Evolved cluster
 type: application
 appVersion: latest
 home: https://store.steampowered.com/app/346110/ARK_Survival_Evolved/
-icon: https://raw.githubusercontent.com/SickHub/ark-server-charts/master/charts/ark-cluster/icon.png
+icon: https://raw.githubusercontent.com/SickHub/ark-server-charts/main/charts/ark-cluster/icon.png
 keywords:
   - game
   - server

@@ -29,7 +29,7 @@ When submitting a PR make sure that it:
 
 1. Changes are automatically linted and tested using the [`ct` tool](https://github.com/helm/chart-testing) with CI Pipeline. Those tests are based on `helm install`, `helm lint` and `helm test` commands and provide quick feedback about the changes in the PR. For those tests, the chart is installed on top of [kind](https://github.com/kubernetes-sigs/kind).
 2. Changes are manually reviewed by contributors.
-3. When the PR passes all tests, the PR is merged by the reviewer(s) in the GitHub `master` branch.
+3. When the PR passes all tests, the PR is merged by the reviewer(s) in the GitHub `main` branch.
 4. Then a maintainer will package and push the chart to GitHub Pages and Artifact Hub.
 
 ***NOTE***: Please note that, in terms of time, may be a slight difference between the appearance of the code in GitHub and the chart in the registry.
