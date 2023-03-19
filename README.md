@@ -2,6 +2,7 @@
 [![Workflow Status](https://img.shields.io/github/actions/workflow/status/sickhub/ark-server-charts/release.yaml)](https://github.com/SickHub/ark-server-charts/actions)
 [![license](https://img.shields.io/github/license/sickhub/ark-server-charts.svg)](https://github.com/sickhub/ark-server-charts/blob/master/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/sickhub/ark-server-charts.svg)](https://github.com/sickhub/ark-server-charts)
+[![Downloads](https://img.shields.io/github/downloads/SickHub/ark-server-charts/total)](https://github.com/sickhub/ark-server-charts/releases)
 [![Contributors](https://img.shields.io/github/contributors/sickhub/ark-server-charts.svg)](https://github.com/sickhub/ark-server-charts/graphs/contributors)
 [![Paypal](https://img.shields.io/badge/donate-paypal-00457c.svg?logo=paypal)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FTXDN7LCDWUEA&source=url)
 [![GitHub Sponsor](https://img.shields.io/badge/github-sponsor-blue?logo=github)](https://github.com/sponsors/SickHub)
