@@ -83,6 +83,7 @@ customConfigMap:
   GameIni:
   GameUserSettingsIni:
   EngineIni:
+  crontab:
 
 # Servers in the ARK cluster
 servers: {}
