@@ -5,10 +5,9 @@ commonAnnotations: {}
 nodeSelector: {}
 affinity: {}
 tolerations: []
-securityContext: {}
-# need to adjust image...
-#  runAsUser: 1000
-#  fsGroup: 1000
+securityContext:
+  runAsUser: 1000
+  fsGroup: 1000
 podLabels: {}
 podAnnotations: {}
 podSecurityContext: {}
