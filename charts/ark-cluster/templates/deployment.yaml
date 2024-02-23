@@ -204,10 +204,14 @@ spec:
             successThreshold: {{ $.Values.livenessProbe.successThreshold }}
             failureThreshold: {{ $.Values.livenessProbe.failureThreshold }}
           volumeMounts:
-            {{- /*- ark-cluster config files */}}
+            {{- /*- ark-cluster config files and crontab */}}
             # config files
             - mountPath: /arkconfig
               name: {{ $chart_name }}-config-volume
+            - mountPath: /ark/config
+              name: {{ $chart_name }}-crontab-volume
+              subPath: "crontab"
+              readOnly: true
             {{- /*- ark-cluster game files */}}
             # shared game files
             - mountPath: {{ $.Values.persistence.game.mountPath }}
@@ -230,10 +234,16 @@ spec:
         {{- toYaml $.Values.extraContainers | nindent 8 }}
         {{- end }}
       volumes:
-        {{- /* ark-cluster configuration files in a configmap */}}
+        {{- /* ark-cluster configuration files in configmaps */}}
         - name: {{ $chart_name }}-config-volume
           configMap:
             name: {{ $chart_name }}-{{ $name }}
+        - name: {{ $chart_name }}-crontab-volume
+          configMap:
+            name: {{ $chart_name }}-{{ $name }}
+            items:
+              - key: "crontab"
+                path: "crontab"
         {{- /* ark-cluster shared game data persistence */}}
         - name: {{ $chart_name }}-game-volume
           {{- if not $.Values.persistence.enabled }}
