@@ -13,10 +13,12 @@
 {{- $engineini := default dict $.Values.customConfigMap.EngineIni }}
 {{- $gameini := default dict $.Values.customConfigMap.GameIni }}
 {{- $gameusersettingsini := default dict $.Values.customConfigMap.GameUserSettingsIni }}
+{{- $crontab := default dict $.Values.customConfigMap.crontab }}
 {{- if .customConfigMap }}
   {{- $gameini = default $gameini .customConfigMap.GameIni }}
   {{- $gameusersettingsini = default $gameusersettingsini .customConfigMap.GameUserSettingsIni }}
   {{- $engineini = default $engineini .customConfigMap.EngineIni }}
+  {{- $crontab = default $crontab .customConfigMap.crontab }}
 {{- end }}
 apiVersion: v1
 kind: ConfigMap
@@ -50,5 +52,12 @@ data:
     {{- tpl $gameusersettingsini (dict "server" $server "Template" $.Template) | nindent 4 }}
   {{- else }}
     {{- tpl ($.Files.Get "files/GameUserSettings.ini") (dict "server" $server "Template" $.Template) | nindent 4 }}
+  {{- end }}
+  crontab: |
+  {{- if $crontab }}
+    # from {{ $name }}.customConfig.GameUserSettingsIni
+    {{- tpl $crontab (dict "server" $server "Template" $.Template) | nindent 4 }}
+  {{- else }}
+    {{- tpl ($.Files.Get "files/crontab") (dict "server" $server "Template" $.Template) | nindent 4 }}
   {{- end }}
 {{- end }}
