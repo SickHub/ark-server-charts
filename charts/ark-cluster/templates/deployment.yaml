@@ -209,7 +209,7 @@ spec:
             - mountPath: /arkconfig
               name: {{ $chart_name }}-config-volume
             - mountPath: /ark/config
-              name: {{ $chart_name }}-config-bis-volume
+              name: {{ $chart_name }}-config-base-volume
             - mountPath: /ark/config/crontab
               name: {{ $chart_name }}-crontab-volume
               subPath: "crontab"
@@ -240,7 +240,7 @@ spec:
         - name: {{ $chart_name }}-config-volume
           configMap:
             name: {{ $chart_name }}-{{ $name }}
-        - name: {{ $chart_name }}-config-bis-volume
+        - name: {{ $chart_name }}-config-base-volume
           emptyDir:
         - name: {{ $chart_name }}-crontab-volume
           configMap:
