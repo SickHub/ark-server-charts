@@ -39,7 +39,7 @@ Loop over `servers`
   {{- $replicaCount = .replicaCount }}
 {{- end }}
 {{- $crontab := default dict $.Values.customConfigMap.crontab }}
-{{- if .customConfigMap.crontab }}
+{{- if and .customConfigMap .customConfigMap.crontab }}
   {{- $crontab = default $crontab .customConfigMap.crontab }}
 {{- end }}
 apiVersion: apps/v1
