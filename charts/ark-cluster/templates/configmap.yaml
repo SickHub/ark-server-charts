@@ -53,11 +53,9 @@ data:
   {{- else }}
     {{- tpl ($.Files.Get "files/GameUserSettings.ini") (dict "server" $server "Template" $.Template) | nindent 4 }}
   {{- end }}
-  crontab: |
   {{- if $crontab }}
-    # from {{ $name }}.customConfig.GameUserSettingsIni
+  crontab: |
+    # from {{ $name }}.customConfig.crontab
     {{- tpl $crontab (dict "server" $server "Template" $.Template) | nindent 4 }}
-  {{- else }}
-    {{- tpl ($.Files.Get "files/crontab") (dict "server" $server "Template" $.Template) | nindent 4 }}
   {{- end }}
 {{- end }}

@@ -38,6 +38,10 @@ Loop over `servers`
 {{- if .replicaCount }}
   {{- $replicaCount = .replicaCount }}
 {{- end }}
+{{- $crontab := default dict $.Values.customConfigMap.crontab }}
+{{- if and .customConfigMap .customConfigMap.crontab }}
+  {{- $crontab = default $crontab .customConfigMap.crontab }}
+{{- end }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -204,14 +208,16 @@ spec:
             successThreshold: {{ $.Values.livenessProbe.successThreshold }}
             failureThreshold: {{ $.Values.livenessProbe.failureThreshold }}
           volumeMounts:
-            {{- /*- ark-cluster config files and crontab */}}
+            {{- /*- ark-cluster config files and optional crontab */}}
             # config files
             - mountPath: /arkconfig
               name: {{ $chart_name }}-config-volume
-            - mountPath: /ark/config
+            {{- if $crontab }}
+            - mountPath: /ark/config/crontab
               name: {{ $chart_name }}-crontab-volume
               subPath: "crontab"
               readOnly: true
+            {{- end }}
             {{- /*- ark-cluster game files */}}
             # shared game files
             - mountPath: {{ $.Values.persistence.game.mountPath }}
